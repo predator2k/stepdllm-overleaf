@@ -1,7 +1,7 @@
 \section{Experiments}
 
 \subsection{Experimental Setup}
-\textbf{Models and Benchmarks} We implement our method on two representative dLLMs, LLaDA-1.5 and Dream-7B-Instruct, to evaluate its effectiveness in accelerating the inference process across various tasks. We conduct experiments on four standard benchmarks covering diverse task types to ensure the broad applicability of our approach, including GSM8K (mathematical reasoning), MATH(mathematical problem solving), HumanEval (code generation), and Ruler (long context capability).
+\textbf{Models and Benchmarks} We implement our method on two representative dLLMs, LLaDA-1.5 and Dream-7B-Instruct, to evaluate its effectiveness in accelerating the inference process across various tasks. We conduct experiments on four standard benchmarks covering diverse task types to ensure the broad applicability of our approach, including GSM8K (mathematical reasoning), MATH (mathematical problem solving), HumanEval (code generation), and RULER (long-context capability).
 
 \textbf{Baselines and Metrics}
 To validate the effectiveness of our method, we compare Step-dLLM against several state-of-the-art dLLM-based approaches, including vanilla LLaDA and Dream, the sparse acceleration method for autoregressive models StreamingLLM, and training-free efficient dLLM methods such as Fast-dLLM and SparseD. We evaluate inference acceleration and generation quality using quantitative metrics. Inference speed is quantified by the wall-clock time required to complete each task under a fixed generation length, while generation quality is assessed using task-specific metrics, such as accuracy on GSM8K, to reflect model performance under different acceleration strategies.

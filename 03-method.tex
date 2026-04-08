@@ -1,4 +1,5 @@
 \section{Analysis and Motivations}
+\label{sec:analysis}
 In this section, we analyze the attention map behaviors during the generation time and illustrate how the observations motivate the adaptive attention sparse updates.
 
 \subsection{Cross-step attention similarity}
@@ -28,50 +29,9 @@ As further shown in Figure~\ref{fig:cross_step_curve}, the change between two co
 \begin{figure}[h]
     \centering
     \includegraphics[width=1.0\linewidth]{figures/panels_6step_2x3.png}
-    % \vspace{-2em} % 调整图和caption之间的距离
-    \caption{Attention Pattern across different steps}
+    \caption{Attention patterns across different denoising steps.}
     \label{fig:attention_pattern_across_steps}
 \end{figure}
-
-% \begin{figure}[t] % t 表示放在页面顶部
-%   \centering
-%   % 第一张子图
-%   \begin{subfigure}[b]{0.15\textwidth}
-%     \centering
-%     \includegraphics[width=\textwidth]{figures/step_001.png}
-%     \caption{Attention.}
-%     \label{fig:attention_matrix}
-%   \end{subfigure}
-%   % \hfill % 在两张图之间插入弹性间距，使其撑满行宽
-%   % 第二张子图
-%   \begin{subfigure}[b]{0.15\textwidth}
-%     \centering
-%     \includegraphics[width=\textwidth]{figures/step_016.png}
-%     \caption{Attention }
-%     \label{fig:sparsity_budget}
-%   \end{subfigure}
-%   \begin{subfigure}[b]{0.15\textwidth}
-%     \centering
-%     \includegraphics[width=\textwidth]{figures/step_032.png}
-%     \caption{Attention }
-%     \label{fig:sparsity_budget}
-%   \end{subfigure}
-%   \begin{subfigure}[b]{0.15\textwidth}
-%     \centering
-%     \includegraphics[width=\textwidth]{figures/step_048.png}
-%     \caption{Attention }
-%     \label{fig:sparsity_budget}
-%   \end{subfigure}
-%   \begin{subfigure}[b]{0.15\textwidth}
-%     \centering
-%     \includegraphics[width=\textwidth]{figures/step_064.png}
-%     \caption{Attention }
-%     \label{fig:sparsity_budget}
-%   \end{subfigure}
-  
-%   \caption{Comparison of attention mechanisms in Step-Dllm.}
-%   \label{fig:overall_comparison}
-% \end{figure}
 
 
 \subsection{Head-wise Heterogeneity in Sparse Attention}
@@ -100,40 +60,26 @@ This design allows highly concentrated heads to be compressed more aggressively,
 As a result, the sparse budget can be utilized more effectively, leading to a better trade-off between efficiency and model quality.
 
 
-\begin{figure}[t] % 去掉 *，使其回归单栏
+\begin{figure}[t]
     \centering
-    % 第一张子图，宽度设为单栏的 48% 左右
     \begin{subfigure}[b]{0.49\columnwidth}
         \centering
         \includegraphics[width=\linewidth]{figures/difference_between_attention_heads.png}
-        \caption{Step similarities.}
+        \caption{Attention patterns of different heads for the same query position, showing head-wise heterogeneity.}
     \end{subfigure}
     \hfill
-    % 第二张子图
     \begin{subfigure}[b]{0.49\columnwidth}
         \centering
         \includegraphics[width=\linewidth]{figures/attention_aggregation_step30_layer25_pos151.png}
-        \caption{The difference of Attention Sparsity Budget Between different heads.}
+        \caption{Cumulative attention mass across heads, illustrating varying concentration levels.}
         \label{fig:budget_cross_head}
     \end{subfigure}
-    
-    \caption{Comparison of attention pattern visualizations.}
+
+    \caption{Head-wise heterogeneity in attention patterns. (a) Different heads attend to substantially different key positions for the same query. (b) Cumulative attention density varies markedly across heads, indicating different compression sensitivities.}
     \label{fig: attention_heterogeneity}
 \end{figure}
 
 
-% \section{Methodology: Step-dLLM}
-% In this section, we present the core methodology of Step-dLLM, which first identifies the sparse attention patterns, and then introduces step-aware adaptive sparsity mask updates last illustrate the fused kernel and implementations.
-
-% \begin{figure}[h]
-%     \centering
-%     \includegraphics[width=0.5\linewidth]{figures/placeholder.pdf}
-%     % \vspace{-2em} % 调整图和caption之间的距离
-%     \caption{main figure}
-%     \label{fig:p}
-% \end{figure}
-
-% \paragraph{Step-aware sparse attention}
 
 % % Motivated by Section 3.2, we proposes a step-aware sparse mask update to reuse the similarity of sparse patterns.
 
@@ -195,13 +141,13 @@ As a result, the sparse budget can be utilized more effectively, leading to a be
 \section{Methodology}
 \label{sec:method}
 
-We present \textbf{Step-dLLM}, an efficient inference framework for diffusion language models. The key observation (Section~\ref{sec:analysis}) is that attention maps change slowly across consecutive diffusion steps, yet vary at different rates throughout the generation process. Step-dLLM exploits this structure through three integrated components: (i)~a \emph{cross-step mask reuse} scheme that amortizes the cost of identifying sparse patterns (Section~\ref{sec:mask_reuse}), (ii)~a \emph{head-adaptive budget} that allocates sparsity non-uniformly across attention heads (Section~\ref{sec:mask_construction}), and (iii)~\emph{fused Triton kernels} that make both anchor and non-anchor steps hardware-efficient (Section~\ref{sec:kernels}). Figure~\ref{fig:p} provides an overview.
+We present \textbf{Step-dLLM}, an efficient inference framework for diffusion language models. The key observation (Section~\ref{sec:analysis}) is that attention maps change slowly across consecutive diffusion steps, yet vary at different rates throughout the generation process. Step-dLLM exploits this structure through three integrated components: (i)~a \emph{cross-step mask reuse} scheme that amortizes the cost of identifying sparse patterns (Section~\ref{sec:mask_reuse}), (ii)~a \emph{head-adaptive budget} that allocates sparsity non-uniformly across attention heads (Section~\ref{sec:mask_construction}), and (iii)~\emph{fused Triton kernels} that make both anchor and non-anchor steps hardware-efficient (Section~\ref{sec:kernels}). Figure~\ref{fig:step_dllm_overview} provides an overview.
 
 \begin{figure}[t]
     \centering
     \includegraphics[width=0.95\linewidth]{figures/StepdLLM.png}
     \caption{Overview of \textbf{Step-dLLM}. Anchor steps compute full attention and extract a block-sparse mask via a fused kernel. Non-anchor steps reuse the cached mask with fresh $\mathbf{Q}, \mathbf{K}, \mathbf{V}$, reducing per-step cost from $\mathcal{O}(L^2)$ to $\mathcal{O}(L \cdot k \cdot b)$. The mask is periodically refreshed every $\Delta$ steps.}
-    \label{fig:p}
+    \label{fig:step_dllm_overview}
 \end{figure}
 
 %% ----------------------------------------------------------------

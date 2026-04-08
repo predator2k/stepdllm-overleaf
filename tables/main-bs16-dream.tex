@@ -1,78 +1,81 @@
 \begin{table}[t]
-  \centering
-  \caption{Comprehensive Benchmark Results on Dream-7B-Instruct}
-  \label{tab:main-bs16-dream}
+\centering
+\caption{Main results on Dream-7B-Instruct with block size 16. All values are accuracy (\%). \textbf{Bold} marks the best result per sparsity level (excluding Dense).}
+\label{tab:main-bs16-dream}
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.15}
 
-  \small
-  \setlength{\tabcolsep}{3pt}
-  \renewcommand{\arraystretch}{1.12}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}ll ccc ccccccccc ccccc@{}}
+\toprule
+\multirow{2.5}{*}{\textbf{Method}} & \multirow{2.5}{*}{\textbf{Sparsity}}
+  & \multicolumn{3}{c}{\textbf{Short-form}}
+  & \multicolumn{8}{c}{\textbf{NIAH}}
+  & \multicolumn{5}{c}{\textbf{RULER}} \\
+\cmidrule(lr){3-5} \cmidrule(lr){6-13} \cmidrule(l){14-18}
+& & GSM8K & Math & HumanE
+  & $\text{S}_1$ & $\text{S}_2$ & $\text{S}_3$
+  & $\text{MK}_1$ & $\text{MK}_2$ & $\text{MK}_3$
+  & MQ & MV
+  & VT & CWE & FWE & QS & QH \\
+\midrule
 
-  \resizebox{\textwidth}{!}{%
-    \begin{tabular}{lccccccccccccccccc}
-    \toprule
-    \multirow{2}{*}{Method} & \multirow{2}{*}{Sparsity} & \multirow{2}{*}{GSM8K} & \multirow{2}{*}{Math} & \multirow{2}{*}{HumanEval}
-      & \multicolumn{8}{c}{NIAH} & \multicolumn{5}{c}{RULER} \\
-    \cmidrule(lr){6-13} \cmidrule(lr){14-18}
-    & & & & 
-      & S\_1 & S\_2 & S\_3 & MK\_1 & MK\_2 & MK\_3 & MQ & MV
-      & VT & CWE & FWE & QS & QH \\
-    \midrule
+Dense & --
+  & \textbf{77.41} & \textbf{45.60} & --
+  & \textbf{100.0} & \textbf{100.0} & \textbf{91.00} & \textbf{98.00}
+  & \textbf{99.80} & \textbf{77.60} & \textbf{97.70} & \textbf{96.40}
+  & \textbf{96.32} & \textbf{87.28} & \textbf{79.47} & \textbf{79.57} & \textbf{64.00} \\
 
-    Dense & -- & \textbf{77.41\%} & \textbf{45.60\%} & --
-      & \textbf{100.00\%} & \textbf{100.00\%} & \textbf{91.00\%} & \textbf{98.00\%}
-      & \textbf{99.80\%} & \textbf{77.60\%} & \textbf{97.70\%} & \textbf{96.40\%}
-      & \textbf{96.32\%} & \textbf{87.28\%} & \textbf{79.47\%} & \textbf{79.57\%} & \textbf{64.00\%} \\
-    \midrule
+\midrule
+\multirow{3}{*}{StreamingLLM}
+  & 50\% & 38.13 & 8.80 & 42.70
+    & 10.00 & 11.00 & 9.00 & 11.00 & 8.80 & 12.40 & 8.75 & 10.30
+    & 13.40 & 43.34 & 37.73 & \textbf{81.40} & 33.00 \\
+  & 80\% & 19.56 & 10.40 & 25.00
+    & 1.80 & 2.80 & 1.40 & 3.20 & 1.20 & 0.00 & 1.95 & 2.40
+    & 0.36 & 4.54 & 4.33 & 19.18 & 19.60 \\
+  & 90\% & 0.00 & 0.00 & 2.44
+    & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00
+    & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
 
-    \multirow{3}{*}{StreamingLLM}
-      & 50\% & 38.13\% & 8.80\% & 42.70\%
-      & 10.00\% & 11.00\% & 9.00\% & 11.00\% & 8.80\% & 12.40\% & 8.75\% & 10.30\%
-      & 13.40\% & 43.34\% & 37.73\% & \textbf{81.40\%} & 33.00\% \\
-    & 80\% & 19.56\% & 10.40\% & 25.00\%
-      & 1.80\% & 2.80\% & 1.40\% & 3.20\% & 1.20\% & 0.00\% & 1.95\% & 2.40\%
-      & 0.36\% & 4.54\% & 4.33\% & 19.18\% & 19.60\% \\
-    & 90\% & 0.00\% & 0.00\% & 2.44\%
-      & 0.00\% & 0.00\% & 0.00\% & 0.00\% & 0.00\% & 0.00\% & 0.00\% & 0.00\%
-      & 0.00\% & 0.00\% & 0.00\% & 0.00\% & 0.00\% \\
-    \midrule
+\midrule
+\multirow{4}{*}{SparseD}
+  & 50\% & 70.50 & 43.60 & 56.10
+    & \textbf{100.0} & \textbf{100.0} & 90.20 & \textbf{98.00} & 99.40 & \textbf{75.80}
+    & \textbf{97.45} & 97.40
+    & 96.28 & \textbf{85.16} & \textbf{75.80} & 80.37 & \textbf{64.60} \\
+  & 80\% & 49.81 & 37.80 & 53.66
+    & \textbf{100.0} & \textbf{99.80} & 47.20 & \textbf{98.80} & \textbf{99.80} & 46.80
+    & 60.05 & 69.30
+    & 95.44 & 71.76 & \textbf{71.77} & \textbf{79.50} & 61.00 \\
+  & 90\% & 22.21 & 28.80 & 43.90
+    & \textbf{100.0} & \textbf{100.0} & 44.60 & \textbf{98.80} & \textbf{99.80} & \textbf{44.80}
+    & \textbf{59.45} & \textbf{69.00}
+    & 92.20 & 54.72 & 67.53 & 78.45 & \textbf{61.60} \\
+  & 95\% & 4.40 & 14.80 & 31.10
+    & \textbf{100.0} & \textbf{100.0} & \textbf{40.80} & \textbf{98.40} & 99.40 & \textbf{37.40}
+    & \textbf{53.95} & \textbf{66.85}
+    & 78.64 & 43.84 & 62.26 & 77.60 & 60.00 \\
 
-    \multirow{4}{*}{SparseD}
-      & 50\% & 70.50\% & 43.60\% & 56.10\%
-      & \textbf{100.00\%} & \textbf{100.00\%} & 90.20\% & \textbf{98.00\%} & 99.40\% & \textbf{75.80\%}
-      & \textbf{97.45\%} & 97.40\%
-      & 96.28\% & \textbf{85.16\%} & \textbf{75.80\%} & 80.37\% & \textbf{64.60\%} \\
-    & 80\% & 49.81\% & 37.80\% & 53.66\%
-      & \textbf{100.00\%} & \textbf{99.80\%} & 47.20\% & \textbf{98.80\%} & \textbf{99.80\%} & 46.80\%
-      & 60.05\% & 69.30\%
-      & 95.44\% & 71.76\% & \textbf{71.77\%} & \textbf{79.50\%} & 61.00\% \\
-    & 90\% & 22.21\% & 28.80\% & 43.90\%
-      & \textbf{100.00\%} & \textbf{100.00\%} & 44.60\% & \textbf{98.80\%} & \textbf{99.80\%} & \textbf{44.80\%}
-      & \textbf{59.45\%} & \textbf{69.00\%}
-      & 92.20\% & 54.72\% & 67.53\% & 78.45\% & \textbf{61.60\%} \\
-    & 95\% & 4.40\% & 14.80\% & 31.10\%
-      & \textbf{100.00\%} & \textbf{100.00\%} & \textbf{40.80\%} & \textbf{98.40\%} & 99.40\% & \textbf{37.40\%}
-      & \textbf{53.95\%} & \textbf{66.85\%}
-      & 78.64\% & 43.84\% & 62.26\% & 77.60\% & 60.00\% \\
-    \midrule
-
-    \multirow{4}{*}{\textbf{Step-dLLM}}
-      & 50\% & \textbf{71.80\%} & \textbf{44.00\%} & \textbf{58.54\%}
-      & \textbf{100.00\%} & \textbf{100.00\%} & \textbf{90.50\%} & 97.80\% & \textbf{99.80\%} & 75.60\%
-      & 97.25\% & \textbf{97.50\%}
-      & \textbf{96.40\%} & 83.24\% & 75.53\% & 79.80\% & 63.80\% \\
-    & 80\% & \textbf{52.39\%} & \textbf{38.60\%} & \textbf{54.27\%}
-      & \textbf{100.00\%} & \textbf{99.80\%} & \textbf{69.00\%} & 98.20\% & \textbf{99.80\%} & \textbf{65.40\%}
-      & \textbf{74.10\%} & \textbf{78.40\%}
-      & \textbf{96.04\%} & \textbf{73.24\%} & 71.13\% & 78.53\% & \textbf{61.80\%} \\
-    & 90\% & \textbf{32.68\%} & \textbf{32.00\%} & \textbf{50.00\%}
-      & \textbf{100.00\%} & 99.80\% & \textbf{47.00\%} & 97.20\% & \textbf{99.80\%} & 39.80\%
-      & 57.30\% & 68.05\%
-      & \textbf{94.68\%} & \textbf{59.58\%} & \textbf{68.26\%} & \textbf{79.03\%} & 60.20\% \\
-    & 95\% & \textbf{15.31\%} & \textbf{19.20\%} & \textbf{35.98\%}
-      & \textbf{100.00\%} & 99.60\% & 37.20\% & 95.60\% & \textbf{99.60\%} & 33.60\%
-      & 52.30\% & 60.95\%
-      & \textbf{82.08\%} & \textbf{46.90\%} & \textbf{62.87\%} & \textbf{77.83\%} & \textbf{61.40\%} \\
-    \bottomrule
-    \end{tabular}%
-  }
+\midrule
+\multirow{4}{*}{\textbf{Step-dLLM}}
+  & 50\% & \textbf{71.80} & \textbf{44.00} & \textbf{58.54}
+    & \textbf{100.0} & \textbf{100.0} & \textbf{90.50} & 97.80 & \textbf{99.80} & 75.60
+    & 97.25 & \textbf{97.50}
+    & \textbf{96.40} & 83.24 & 75.53 & 79.80 & 63.80 \\
+  & 80\% & \textbf{52.39} & \textbf{38.60} & \textbf{54.27}
+    & \textbf{100.0} & \textbf{99.80} & \textbf{69.00} & 98.20 & \textbf{99.80} & \textbf{65.40}
+    & \textbf{74.10} & \textbf{78.40}
+    & \textbf{96.04} & \textbf{73.24} & 71.13 & 78.53 & \textbf{61.80} \\
+  & 90\% & \textbf{32.68} & \textbf{32.00} & \textbf{50.00}
+    & \textbf{100.0} & 99.80 & \textbf{47.00} & 97.20 & \textbf{99.80} & 39.80
+    & 57.30 & 68.05
+    & \textbf{94.68} & \textbf{59.58} & \textbf{68.26} & \textbf{79.03} & 60.20 \\
+  & 95\% & \textbf{15.31} & \textbf{19.20} & \textbf{35.98}
+    & \textbf{100.0} & 99.60 & 37.20 & 95.60 & \textbf{99.60} & 33.60
+    & 52.30 & 60.95
+    & \textbf{82.08} & \textbf{46.90} & \textbf{62.87} & \textbf{77.83} & \textbf{61.40} \\
+\bottomrule
+\end{tabular}%
+}
 \end{table}

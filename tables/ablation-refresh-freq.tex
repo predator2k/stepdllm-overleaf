@@ -1,0 +1,37 @@
+\begin{table}[t]
+\centering
+\caption{Ablation on mask refresh frequency (LLaDA-1.5, block size 16). Frequency $f$ means the mask is refreshed every $f \times N_{\text{steps}}$ steps; lower $f$ corresponds to more frequent updates. \textbf{Bold} marks the best per sparsity level.}
+\label{tab:ablation-freq}
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.12}
+
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llcccccccc}
+\toprule
+\multirow{2}{*}{Sparsity} & \multirow{2}{*}{Metric} & \multicolumn{4}{c}{SparseD} & \multicolumn{4}{c}{Step-dLLM} \\
+\cmidrule(lr){3-6} \cmidrule(lr){7-10}
+& & $f{=}1.0$ & $f{=}0.5$ & $f{=}0.3$ & $f{=}0.2$ & $f{=}1.0$ & $f{=}0.5$ & $f{=}0.3$ & $f{=}0.2$ \\
+\midrule
+
+\multirow{3}{*}{95\%}
+& GSM8K & 9.48 & 6.29 & 5.53 & 6.29 & 16.83 & 16.98 & 17.43 & \textbf{18.80} \\
+& MATH  & 12.00 & 13.80 & 14.20 & 13.60 & 15.40 & 16.00 & 15.40 & \textbf{16.60} \\
+& RULER-VT & 86.16 & 95.40 & 97.04 & 96.64 & 92.32 & 95.36 & 96.36 & \textbf{97.20} \\
+\midrule
+
+\multirow{3}{*}{90\%}
+& GSM8K & 29.64 & 29.72 & 34.19 & 43.90 & 35.18 & 40.64 & 52.24 & \textbf{61.79} \\
+& MATH  & 23.00 & 22.20 & 23.20 & 24.80 & 21.20 & 22.60 & 23.60 & \textbf{26.20} \\
+& RULER-VT & 93.64 & 97.04 & 97.96 & 97.96 & 94.00 & 96.56 & 97.04 & \textbf{97.50} \\
+\midrule
+
+\multirow{3}{*}{80\%}
+& GSM8K & 53.68 & 64.37 & 73.09 & 76.80 & 57.77 & 68.23 & 75.01 & \textbf{77.56} \\
+& MATH  & 29.20 & 31.20 & 32.40 & 34.00 & 31.00 & 32.00 & 33.60 & \textbf{36.40} \\
+& RULER-VT & 94.32 & -- & -- & -- & 98.52 & 96.64 & 97.28 & \textbf{99.88} \\
+
+\bottomrule
+\end{tabular}%
+}
+\end{table}

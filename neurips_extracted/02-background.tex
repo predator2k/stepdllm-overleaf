@@ -1,0 +1,62 @@
+\section{Background and Related works}
+
+\subsection{Diffusion Language Models}
+Diffusion models have emerged as a powerful paradigm in generative modeling,
+framing data generation as the inversion of a forward-noise process. They have achieved
+remarkable success in continuous domains such as images and videos. More
+recently, diffusion models have also advanced the natural language processing area.
+DLMs extend diffusion to discrete sequences by redefining noise injection and
+denoising.
+
+DLMs generate text via an iterative unmasking process
+over $T$ discrete denoising steps, gradually transforming a masked sequence into
+the final output. Let $\mathcal V$ denote the vocabulary, and let
+$x_t^l \in \mathcal V^l$ denote the sequence state of length $l$ at step $t$,
+where $t = 0, \ldots, T$.
+
+If the prompt is formulated as $p_0 = (x_1, \ldots, x_m)$, the goal is to generate
+a full sequence $x = (x_1, \ldots, x_L)$ with the prompt tokens fixed. We define
+the response positions as
+\[
+\mathcal R = \{m+1, \ldots, L\}.
+\]
+
+At inference time, DLMs start from the maximum-noise state by masking all response
+tokens:
+\[
+x_i^{0} =
+\begin{cases}
+x_i, & i \le m, \\
+[\mathrm{MASK}], & i \in \mathcal R,
+\end{cases}
+\]
+where $[\mathrm{MASK}]$ denotes a special mask token. Prompt tokens are frozen
+throughout the inference process.
+
+Given a decreasing mask-ratio schedule $1=t_0>t_1>\cdots>t_K=0$, inference proceeds
+for $K$ steps. At step $k$, a Transformer denoiser $f_\theta$ produces token
+distributions
+\[
+\pi_i^{k} = \mathrm{Softmax}(f_\theta(x^k)_i), \quad i \in \mathcal R.
+\]
+Let $\mathcal M_k = \{ i \in \mathcal R \mid x_i^{k} = [\mathrm{MASK}] \}$. A subset
+$\mathcal U_k \subseteq \mathcal M_k$ with
+\[
+|\mathcal U_k| = |\mathcal M_k| - \lceil t_{k+1}|\mathcal R| \rceil
+\]
+is unmasked by sampling from $\pi_i^{k}$, while all other positions remain
+unchanged. After $K$ steps, all masks are removed and $x^K$ is returned.
+
+
+\subsection{Efficient inference for Diffusion Models}
+To balance the trade-off between inference speed and model performance, various techniques
+have been proposed. One of the most accepted methods is block diffusion, which sampling
+applies the origin reverse process within each block and the autoregressive sampling
+across blocks. This approach activates the KV cachce strategies in DLLMs, which can 
+significantly reduce the computational overhead during inference. Other techniques
+includes \zz{literature summary}
+
+\subsection{Sparse Attention}
+
+In long-context language models, sparse attention mechanisms have been widely adopted to
+reduce the quadratic complexity of standard attention. Various sparse attention patterns

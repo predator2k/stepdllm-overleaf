@@ -1,0 +1,27 @@
+\section{Background and Related Work}
+\label{sec:background}
+
+\subsection{Preliminaries: Discrete Diffusion Language Models}
+\label{sec:prelim}
+
+Discrete diffusion language models (dLLMs) generate text by iteratively unmasking a fully corrupted sequence over $S$ denoising steps. Let $\mathcal{V}$ denote the vocabulary and $L$ the total sequence length comprising $m$ prompt tokens and $L-m$ response tokens at positions $\mathcal{R}=\{m{+}1,\ldots,L\}$. Starting from $x^{(0)}$ in which all response positions are set to $[\mathrm{MASK}]$, each step $s$ applies a Transformer denoiser $f_\theta$ to produce per-token distributions $\pi_i^{(s)}=\mathrm{Softmax}(f_\theta(x^{(s)})_i)$ for $i\in\mathcal{R}$. A subset of currently masked positions is then unmasked by sampling from $\pi_i^{(s)}$ according to a decreasing mask-ratio schedule, while prompt tokens remain frozen throughout. After $S$ steps all masks are removed and $x^{(S)}$ is returned.
+
+Crucially, because dLLMs predict \emph{all} masked tokens simultaneously at each step, $f_\theta$ employs \textbf{bidirectional} (non-causal) self-attention over the full length-$L$ sequence. This means every denoising step incurs $\mathcal{O}(L^2)$ attention cost and, unlike autoregressive models, cannot directly leverage KV caching. Reducing this per-step quadratic cost is the central goal of our work.
+
+\subsection{Related Work}
+\label{sec:related}
+
+\paragraph{Diffusion language models.}
+Extending diffusion to discrete tokens, D3PM~\citep{austin2021d3pm} introduced learnable transition matrices, SEDD~\citep{lou2024sedd} proposed score-entropy-based training, and MDLM~\citep{sahoo2024mdlm} showed that a simplified masked diffusion objective substantially closes the gap with autoregressive (AR) models. LLaDA~\citep{nie2025llada} scaled this paradigm to 8B parameters, rivaling LLaMA3 8B across diverse benchmarks, with subsequent extensions to multimodal~\citep{you2025lladav}, mixture-of-experts~\citep{llada-moe2025}, and preference-optimized variants~\citep{zhu2025llada15}.
+
+\paragraph{Efficient inference for dLLMs.}
+Efforts to accelerate diffusion language models follow two directions.
+One line of work reduces the number of sampling steps by introducing block-wise autoregressive generation, which enables KV caching and inter-block parallelism~\citep{arriola2025block,llada2,wu2025fastdllm,d2f2025}.
+The other line reduces per-step cost by exploiting the temporal redundancy of attention maps across denoising timesteps~\citep{yuan2024ditfastattn,zhang2025spargeattn,liteattention2025}; however, these methods are designed for continuous-domain diffusion transformers and do not transfer to the masked discrete setting, where attention patterns exhibit fundamentally different dynamics.
+
+\paragraph{Sparse attention.}
+Classical sparse attention mechanisms impose fixed patterns---strided, sliding-window, or global-token masks---to achieve sub-quadratic complexity~\citep{child2019sparse,beltagy2020longformer,zaheer2020bigbird}, but sacrifice adaptivity to input-dependent saliency.
+A recent wave of dynamic methods instead constructs block-sparse masks on the fly, using strategies such as online index estimation, query-aware selection, or learned gating~\citep{jiang2024minference,tang2024quest,zhu2025tactic,gao2024seerattention,yuan2025nsa}.
+Complementary kernel-level advances~\citep{dao2022flashattention,dao2023flashattention2,ye2025flashinfer,xu2025xattention} further reduce wall-clock time through IO-aware tiling and block-sparse execution.
+Crucially, all of the above assume \emph{causal} attention and recompute the sparse mask at every forward pass.
+Our work departs from this paradigm in two ways: we target the \emph{bidirectional} attention of dLLMs, and we \emph{amortize} mask computation across diffusion steps by leveraging the temporal stability of attention patterns unique to iterative denoising (Section~\ref{sec:mask_reuse}).

@@ -1,0 +1,123 @@
+\section{Experiments}
+
+\subsection{Experimental Setup}
+\textbf{Models and Benchmarks} We implement our method on two representative dLLMs, Llada-1.5 and Dream-7B-Instuct, to evaluate its effectiveness in accelerating the inference process across various tasks. We conduct experiments on four standard benchmarks covering diverse task types to ensure the broad applicability of our approach, including GSM8K (mathematical reasoning), MATH(mathematical problem solving), HumanEval (code generation), and Ruler (long context capability).   
+
+\textbf{Baselines and Metrics}
+To validate the effectiveness of our method, we compare Step-dLLM against several state-of-the-art dLLM-based approaches, including vanilla LLaDA and Dream, the sparse acceleration method for autoregressive models StreamingLLM, and training-free efficient dLLM methods such as Fast-dLLM and SparseD. We evaluate inference acceleration and generation quality using quantitative metrics. Inference speed is quantified by the wall-clock time required to complete each task under a fixed generation length, while generation quality is assessed using task-specific metrics, such as accuracy on GSM8K, to reflect model performance under different acceleration strategies.
+
+\textbf{Implemention Details}
+During inference, we use a single NVIDIA H100 GPU and fix the batch size to 1 for all models. In our proposed method Step-dLLM, we largely follow the hyperparameter settings of SparseD. Specifically, for all datasets, we set the granularity of sparsity computation (block size) to \(S = 16\) and the block length to \(L = 32\), which controls the proportion between autoregressive steps and diffusion steps. In addition, we set the refresh frequency of the attention mask matrix to 0.2, i.e., we update the global attention mask every \(0.2 \times N_{\text{steps}}\) denoising steps. For short-text datasets such as GSM8K and HumanEval, we set the sparsity budget to \(\rho = 50\%\), whereas for the long context dataset Ruler, we adopt a more conservative budget of \(\rho = 20\%\). We use the same configuration \((S, L, \rho)\) for SparseD. Regarding the parameter in SparseD that controls the use of full attention instead of sparse attention in the early steps, we set the proportion to \(\text{skip}\% = 5\%\). To ensure a fair comparison, we configure Fast-dLLM with the same block length \(L = 32\) and set the threshold to \(\text{threshold} = 0.9\). For StreamingLLM, we fix the proportion of sink tokens \(s_0\) to 10\% of the total generation length, and derive the sliding window size \(W\) from the sparsity budget as $W = (\rho - s_0) \cdot L_{\text{total}}.$
+Across all methods, we set the total generation length \(L_{\text{total}}\) to be equal to the number of diffusion steps \(N_{\text{steps}}\). Additional details about the models, datasets, and baseline methods are provided in the Appendix.
+
+\subsection{Main Results}
+
+Tables~\ref{tab:main-bs16-llada} and~\ref{tab:main-bs16-dream} summarize the main comparison on LLaDA-1.5 and Dream-7B-Instruct. Overall, Step-dLLM provides the best accuracy--sparsity trade-off among sparse methods on both short-form and long-context benchmarks, and the advantage becomes more visible as sparsity increases.
+
+On reasoning and code generation tasks, Step-dLLM stays close to dense decoding at moderate sparsity and degrades more gracefully than SparseD in the high-sparsity regime. At 50\% sparsity, its accuracy is already comparable to the dense baseline on both backbones. The difference becomes clearer at 90\% sparsity: on GSM8K, Step-dLLM improves over SparseD by 5.6 points on LLaDA-1.5 (35.25\% vs.\ 29.64\%) and by 10.5 points on Dream-7B-Instruct (32.68\% vs.\ 22.21\%). At 95\% sparsity, the gap further widens on GSM8K, where Step-dLLM retains 17.13\% and 15.31\% accuracy on the two models, compared with 9.86\% and 4.40\% for SparseD. Similar trends hold on MATH and HumanEval. This behavior is consistent with our core hypothesis: once denoising progresses, a mask computed only once becomes increasingly stale, while periodic refresh better matches the evolving attention structure.
+
+The gains are even larger on long-context retrieval benchmarks. On NIAH and RULER, Step-dLLM remains much closer to dense performance on the harder multi-needle and compositional subtasks, where missing a small set of relevant positions can lead to a disproportionate accuracy drop. For example, on LLaDA-1.5 at 80\% sparsity, SparseD drops to 71.20\% on NIAH-S\_3 and 74.20\% on MK\_3, whereas Step-dLLM maintains 100.00\% and 99.60\%, respectively. A similar trend appears on Dream-7B-Instruct, where Step-dLLM improves over SparseD by 21.8 points on S\_3 and 18.6 points on MK\_3 at the same sparsity level. On RULER, Step-dLLM also yields clear gains on compositional tasks such as CWE, improving LLaDA-1.5 from 34.56\% to 54.16\% at 90\% sparsity. These results suggest that long-context generation is especially sensitive to stale sparse patterns, because the set of salient key positions can shift substantially across denoising steps.
+
+In contrast, StreamingLLM performs poorly throughout and often collapses at high sparsity. On LLaDA-1.5, GSM8K drops from 74.07\% at 50\% sparsity to 19.11\% at 80\% sparsity and essentially zero at 90\%; Dream-7B-Instruct shows the same failure mode. This result is expected: StreamingLLM is designed for autoregressive causal attention, whereas diffusion LLMs rely on bidirectional interactions that evolve during denoising. The comparison therefore highlights that sparse patterns tailored for autoregressive decoding do not transfer directly to the diffusion setting.
+
+\input{tables/main-bs16-llada-1.5}
+\input{tables/main-bs16-dream}
+
+\paragraph{Kernel-level efficiency.}
+Figure~\ref{fig:kernel} shows that the accuracy gains of Step-dLLM do not come at the cost of efficiency. Our fused Triton kernel consistently outperforms dense Flash Attention, and the speedup grows with both sequence length and sparsity. At 95\% sparsity, it reaches $8.6\times$ speedup at 16K tokens, while even 80\% sparsity delivers an approximately $2\times$ improvement across all tested lengths. This indicates that the savings from step-aware sparsity translate into practical wall-clock gains rather than remaining purely algorithmic.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/kernel_speedup.pdf}
+    \caption{Kernel-level wall-clock speedup of the fused block-sparse attention kernel over the dense Flash Attention baseline. Speedup increases with both sequence length and sparsity ratio, reaching $8.6\times$ at 16K tokens with 95\% sparsity.}
+    \label{fig:kernel}
+\end{figure}
+
+\subsection{Ablation Studies}
+
+We next isolate the two design choices that distinguish Step-dLLM from SparseD: periodic mask refreshing and head-adaptive budget allocation. Unless otherwise specified, all ablations are conducted on LLaDA-1.5 with block size 16.
+
+\paragraph{Refresh frequency.}
+Table~\ref{tab:ablation-freq} shows that refresh frequency is a first-order factor. As the refresh interval becomes shorter, both SparseD and Step-dLLM improve, but the gain is consistently larger for Step-dLLM. On GSM8K at 90\% sparsity, SparseD improves from 29.64\% to 43.90\% when moving from one-shot masking ($f{=}1.0$) to frequent refresh ($f{=}0.2$), whereas Step-dLLM improves from 35.18\% to 61.79\%. This confirms that cross-step mask reuse should be local rather than global.
+
+\paragraph{Head-adaptive budget.}
+The head-adaptive allocation also contributes independently of refresh. Even under the same one-shot setting ($f{=}1.0$), Step-dLLM still outperforms SparseD, indicating that a better allocation of sparse budget across heads leads to a better mask even before refresh is introduced. For example, Step-dLLM improves GSM8K from 29.64\% to 35.18\% at 90\% sparsity and improves RULER-VT from 86.16\% to 92.32\% at 95\% sparsity. This supports the intuition that different heads exhibit different concentration patterns and should not be forced to share a uniform sparsity rule.
+
+\paragraph{Block size.}
+Finally, Table~\ref{tab:ablation-blocksize} shows that Step-dLLM remains stronger than SparseD at both block sizes 16 and 32, and its advantage becomes larger with coarser blocks. At 90\% sparsity on GSM8K, the margin grows from 5.6 points at block size 16 to 22.0 points at block size 32. This trend is expected: when each masking decision removes a larger block, stale masks become more costly, so step-aware refresh and adaptive budget allocation matter even more.
+
+\input{tables/ablation-refresh-freq}
+\input{tables/ablation-block-size}
+
+
+% \subsection{Main Results}
+% %We present the inference accuracy of Step-dLLM and all baselines on Llada-1.5 and Dream-7B across all benchmarks, as shown in Table 1.
+% We evaluate Step-dLLM on two representative diffusion LLMs, LlaDA-1.5 and Dream-7B-Instruct (Table~\ref{tab:main-bs16-llada} and Table~\ref{tab:main-bs16-dream}), covering short-form reasoning/code benchmarks (GSM8K, MATH, HumanEval) and long-context benchmarks (NIAH, RULER). All methods are compared under the same sparsity budgets (50\% 80\% 90\% 95\%) against Dense, StreamingLLM, and SparseD. Overall, StreamingLLM exhibits a severe quality collapse on diffusion LLMs, while Step-dLLM is consistently more robust—especially at high sparsity (90\%–95\%)—and preserves strong long-context performance, validating the benefit of step-aware sparse updates and global budget allocation under denoising-step dynamics.
+
+% Table~\ref{tab:main-bs16-llada} and Table~\ref{tab:main-bs16-dream} show that Step-dLLM is consistently more robust than SparseD at high sparsity(90\%–95\%) on both LlaDA-1.5 and Dream-7B-Instruct, because it aligns the sparsity pattern with DLLMs step dynamics: unlike SparseD’s largely step-agnostic masking, Step-dLLM leverages the fact that attention-score structure is correlated across denoising steps but shifts across stages, so it reuses masks when cross-step similarity is high and refreshes them when the step/stage distribution changes. This step-aware, stage-aware mask updating prevents the “stale mask” failure mode under aggressive sparsity, thereby preserving reasoning/code accuracy while maintaining long-context quality on NIAH/RULER.
+
+% Also, the tables demonstrate that Step-dLLM delivers a better accuracy–efficiency tradeoff than SparseD at high sparsity (90\%–95\%) and avoids the quality collapse of traditional AR mathod, like StreamingLLM, on DLLMs.
+
+
+% Model: LLaDA-1.5, Dream-7B-Instruct
+
+% Bench: MATH500, Human-eval, RULER, NIAH, GSM8K
+
+% Baseline: StreamingLLM, SparseD, FastDLLM
+
+% \begin{itemize}
+% \item Dense
+% \item + StreamingLLM
+% \item + SparseD
+% % \item + OPT1
+% \item + Ours
+% \item (optional) fastdllm
+% \end{itemize}
+
+% Setting:
+% Sparsity: 95\%, 90\%, 80\%, 50\%
+
+% Step updating: 1/2, 1/3, 1/5, 1/10, 0
+
+% Block Size: 16, 32
+
+% \input{tables/main-bs16-llada-1.5}
+% \input{tables/main-bs16-dream}
+% %\input{tables/main-bs16-llada-1.5-long}
+
+
+
+
+% % \subsection{Efficiency}
+% Sequence length (total): 1K, 2K, 4K (@JUNPAN)
+
+% Kernel-level: all heads block-wise sparse attention
+
+% e2e: + step-update + sparse attn
+
+% Figure~\ref{fig:kernel}
+% \begin{figure}[t]
+%     \centering
+%     \includegraphics[width=1\linewidth]{figures/kernel_speedup.pdf}
+%     \caption{Kernel-level speedup over the dense baseline under different sparsity levels and sequence lengths. Larger gains are achieved in longer-context and higher-sparsity regimes.}
+%     \label{fig:kernel}
+% \end{figure}
+% summarizes the kernel-level efficiency of our Step-dLLM implementation. Specifically, we develop a customized CUDA kernel that fuses step-aware mask updating with block-wise sparse attention, and benchmark its end-to-end runtime under different sequence lengths (from 1K to 16K) and sparsity budgets. Across all settings, the proposed kernel achieves substantial speedups over the dense baseline, with gains increasing as either the sequence length grows or the sparsity becomes more aggressive, reaching up to ~8× speedup at long-context and high-sparsity regimes. This shows that Step-dLLM’s step-aware sparse attention is not only algorithmically effective but also practically efficient at the kernel level.
+
+% %\input{tables/main-kernel-level}
+
+% \subsection{Ablation Study}
+
+% 1. Block size: 8, 16, 32
+
+% We also did further ablation study for block size 32, since the StreamingLLM doesn't have block size, we only compare the results of SparseD and Ours. The results of experimention are shown in table 4 & table 5:
+
+% %\input{tables/main-bs32-llada-1.5}
+% %\input{tables/main-bs32-dream}
+
+% 2. Step update frequency: 
+
+% 3. OPT1, OPT2
+
+% 4. Accuracy \& efficiency tradeoff
+

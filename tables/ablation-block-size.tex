@@ -1,0 +1,36 @@
+\begin{table}[t]
+\centering
+\caption{Ablation on block size (LLaDA-1.5). Accuracy (\%) on short-form benchmarks under block sizes 16 and 32. Step-dLLM consistently outperforms SparseD at both granularities. \textbf{Bold} marks the best per row.}
+\label{tab:ablation-blocksize}
+\small
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.12}
+
+\begin{tabular}{llcccc}
+\toprule
+\multirow{2}{*}{Sparsity} & \multirow{2}{*}{Benchmark}
+& \multicolumn{2}{c}{Block size = 16} & \multicolumn{2}{c}{Block size = 32} \\
+\cmidrule(lr){3-4} \cmidrule(lr){5-6}
+& & SparseD & Step-dLLM & SparseD & Step-dLLM \\
+\midrule
+
+\multirow{3}{*}{95\%}
+& GSM8K     &  9.86 & \textbf{17.13} &  8.64 & \textbf{19.18} \\
+& MATH      &  9.40 & \textbf{13.80} & 10.60 & \textbf{16.20} \\
+& HumanEval & 20.12 & \textbf{21.34} & 12.80 & \textbf{23.78} \\
+\midrule
+
+\multirow{3}{*}{90\%}
+& GSM8K     & 29.64 & \textbf{35.25} & 17.51 & \textbf{39.50} \\
+& MATH      & \textbf{20.00} & \textbf{21.60} & 21.60 & \textbf{26.00} \\
+& HumanEval & 30.49 & \textbf{32.93} & 28.66 & \textbf{34.15} \\
+\midrule
+
+\multirow{3}{*}{80\%}
+& GSM8K     & 53.68 & \textbf{58.38} & 50.87 & \textbf{63.23} \\
+& MATH      & \textbf{28.20} & 27.60 & 31.60 & 31.20 \\
+& HumanEval & 36.59 & \textbf{37.20} & 37.80 & \textbf{39.12} \\
+
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,125 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+%     \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2026
+
+% 0. "default" for submission (Main Track, double-blind)
+% \usepackage{neurips_2026}
+% After being accepted:
+% \usepackage[main, final]{neurips_2026}
+% For preprint:
+\usepackage[preprint]{neurips_2026}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+
+% Additional packages from the paper
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{xspace}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% if you use cleveref..
+\usepackage[capitalize,noabbrev]{cleveref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THEOREMS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% Todonotes is useful during development; simply uncomment the next line
+%    and comment out the line below the next line to turn off comments
+%\usepackage[disable,textsize=tiny]{todonotes}
+\usepackage[textsize=tiny]{todonotes}
+
+% Custom commands
+\newcommand{\name}{Step-dLLM\xspace}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\zz}[1]{\noindent{\textcolor{purple}{\bf \fbox{ZZ} {\it#1}}}}
+\newcommand{\xz}[1]{\noindent{\textcolor{blue}{\bf \fbox{XZ} {\it#1}}}}
+
+\title{\name: Adaptive Step-aware Sparse Attention for Efficient Diffusion LLM Inference}
+\author{%
+  \textbf{Zhichen Zeng}\textsuperscript{1}\thanks{Equal Contribution.}\hspace{4pt}
+  \quad
+  \textbf{Xichong Zhang}\textsuperscript{1,}\textsuperscript{2}\footnotemark[1] 
+  \quad
+  \textbf{Junpan Wu}\textsuperscript{1,}\textsuperscript{3}
+  \quad
+  \textbf{Chi-Chih Chang}\textsuperscript{4}\\
+  \textbf{Jiayi Wang}\textsuperscript{1} 
+  \quad
+  \textbf{Jingqun Zhang}\textsuperscript{1}
+  \quad
+  \textbf{Ji Liu}\textsuperscript{5}
+  \quad
+  \textbf{Ang Li}\textsuperscript{1}
+  \quad
+  \textbf{Banghua Zhu}\textsuperscript{1}
+  \\
+  \textsuperscript{1}University of Washington 
+  \quad
+  \textsuperscript{2}University of Waterloo\\
+  \textsuperscript{3}University of Wisconsin$-$Madison
+  \quad
+  \textsuperscript{4} Cornell University
+  \quad
+  \textsuperscript{5}Meta AI
+  \quad
+}
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Diffusion Language Models (DLMs) have emerged as a promising alternative to traditional autoregressive (AR) models, offering bidirectional context understanding and parallel generation. However, the bidirectional attention mechanism introduces quadratic computational complexity over the entire context, leading to severe generation latency. While sparse attention is widely used to accelerate AR models, applying it to DLMs is highly non-trivial. Existing sparse diffusion methods typically compute an initial attention mask and reuse it; however, we demonstrate that this leads to suboptimal performance due to severe step-dependent drift in attention patterns along the denoising trajectory. To address this, we propose Step-aware Sparse Attention (SASA), a novel dynamic sparse attention mechanism tailored for DLMs. Built on the observation that attention distributions vary significantly between the prefilling and generation stages of denoising, SASA dynamically adjusts attention computation to track these evolving patterns. Furthermore, we introduce a global budget allocation strategy to optimally distribute attention computation across heads, supported by a highly efficient custom kernel. Extensive experiments demonstrate that SASA significantly accelerates DLM inference while maintaining high generation quality, outperforming existing sparse attention baselines.
+\end{abstract}
+
+\input{01-intro}
+\input{02-background}
+\input{03-method}
+\input{04-results}
+\input{05-conclusion}
+
+\bibliography{example_paper}
+\bibliographystyle{plainnat}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% APPENDIX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+\section{Appendix}
+
+% You can have as much text here as you want. There is no page limit for the
+% technical appendices.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \newpage
+% \input{checklist.tex}
+
+\end{document}

@@ -21,26 +21,11 @@ As further shown in Figure~\ref{fig:cross_step_curve}, the change between two co
 
 Recent sparse DLM methods reduce inference cost by exploiting sparsity during the denoising process. In particular, SparseD~\cite{wang2025sparsed} performs sparse attention computation by selecting important token interactions according to token-level attention saliency, while other concurrent methods improve efficiency through token-level cache eviction. These designs have shown promising efficiency gains in DLM inference. However, they implicitly treat the token as the primary unit of sparsification, assuming that the importance of a token is largely consistent across attention heads. We find that this assumption is overly coarse for DLMs.
 
-As shown in Figure~\ref{fig: attention_heterogeneity}(a), even for the same query token, different attention heads can exhibit substantially different attention patterns. 
-Some heads focus sharply on a small set of key positions, while others attend more broadly or emphasize entirely different regions. 
-This indicates that head-specific behaviors are not merely a secondary effect, but a fundamental property of sparse attention in DLMs. 
-Consequently, a unified token-level sparsity decision may be suboptimal: a token that is highly important for one head can be much less informative for another. 
-Applying the same sparse mask or compression rule across all heads therefore risks preserving unnecessary computations in some heads while discarding critical attention scores in others.
+As shown in Figure~\ref{fig: attention_heterogeneity}(a), even for the same query token, different attention heads exhibit substantially different patterns: some focus sharply on a small set of key positions while others attend broadly or emphasize entirely different regions. Applying a uniform sparse mask across all heads therefore risks preserving unnecessary computation in concentrated heads while discarding critical attention scores in dispersed ones.
 
-Moreover, the heterogeneity across heads is reflected not only in attended positions, but also in the concentration of attention mass. 
-Figure~\ref{fig: attention_heterogeneity}(b) visualizes the cumulative density of attention scores for different heads. 
-We observe that the concentration behaviors vary markedly across heads: some heads are highly concentrated, where preserving only a small fraction of top-scoring entries already retains most of the attention mass, whereas other heads are much more dispersed and require a substantially larger fraction to achieve the same coverage. 
-For example, certain heads can preserve around $90\%$ of the attention mass with only about $10\%$ of the entries, while others may require close to $50\%$. 
-This suggests that different heads have different compression sensitivities and thus should not be assigned the same sparsity budget.
+The heterogeneity is also reflected in attention mass concentration. Figure~\ref{fig: attention_heterogeneity}(b) shows that cumulative attention density varies markedly across heads: certain heads retain $90\%$ of their attention mass with only $10\%$ of entries, while others require close to $50\%$. This implies that heads have fundamentally different compression sensitivities and should not share the same sparsity budget.
 
-This observation is qualitatively different from prior token-level acceleration strategies in DLMs. 
-SparseD emphasizes that sparse patterns are highly reusable across denoising steps and therefore pre-computes sparse patterns once and reuses them later, while other methods leverage the temporal stability of token saliency to evict low-importance cache entries. 
-In contrast, our analysis highlights that, even when sparsity is exploited, the effective compression granularity should be head-aware rather than purely token-level. 
-In other words, the key challenge is not only which tokens to preserve, but also how much computation budget each head should receive.
-
-Motivated by this head-wise heterogeneity, we allocate the sparse attention budget globally across heads instead of enforcing a uniform token-level or per-head compression ratio. 
-This design allows highly concentrated heads to be compressed more aggressively, while reserving more computation for heads with more dispersed yet important attention patterns. 
-As a result, the sparse budget can be utilized more effectively, leading to a better trade-off between efficiency and model quality.
+Motivated by this observation, we allocate the sparse attention budget globally across heads rather than enforcing a uniform per-head ratio. This allows concentrated heads to be compressed aggressively while reserving capacity for dispersed but important ones, leading to a better accuracy--efficiency trade-off at the same total computation budget.
 
 
 \begin{figure}[t]

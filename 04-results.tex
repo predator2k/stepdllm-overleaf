@@ -35,7 +35,7 @@ Figure~\ref{fig:kernel} shows that the accuracy gains of Step-dLLM do not come a
 
 \subsection{Ablation Studies}
 
-We next isolate the two design choices that distinguish Step-dLLM from SparseD: periodic mask refreshing and head-adaptive budget allocation. Unless otherwise specified, all ablations are conducted on LLaDA-1.5 with block size 16.
+We next isolate the two design choices that distinguish Step-dLLM from SparseD---periodic mask refreshing and head-adaptive budget allocation---to quantify each component's independent contribution. Unless otherwise specified, all ablations are conducted on LLaDA-1.5 with block size 16.
 
 \paragraph{Refresh frequency.}
 Table~\ref{tab:ablation-freq} shows that refresh frequency is a first-order factor. As the refresh interval becomes shorter, both SparseD and Step-dLLM improve, but the gain is consistently larger for Step-dLLM. On GSM8K at 90\% sparsity, SparseD improves from 29.64\% to 43.90\% when moving from one-shot masking ($f{=}1.0$) to frequent refresh ($f{=}0.2$), whereas Step-dLLM improves from 35.18\% to 61.79\%. This confirms that cross-step mask reuse should be local rather than global.

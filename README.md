@@ -16,6 +16,13 @@ python3 scripts/figure_neurips_style_test.py
 
 GitHub Actions runs the same three commands plus `python3 scripts/regenerate_figures.py --dry-run` on pushes to `main` and on all pull requests (see `.github/workflows/smoke.yml`). There is no `pdflatex` job in CI yet.
 
+**Two verification signals (report separately; do not blend):**
+
+- **(A) Python / GitHub Smoke** — the three plotter commands above plus `python3 scripts/regenerate_figures.py --dry-run` (see `.github/workflows/smoke.yml`): **manifest wiring and generator checks only**; green Smoke **does not** mean the NeurIPS PDF compiled.
+- **(B) Full LaTeX PDF** — step 3 / `sh scripts/build_pdf.sh` (or the manual `pdflatex`/`bibtex` sequence): **a separate gate** until CI installs TeX; treat missing **B** as “not run,” not “passed.”
+
+Broader definition-of-done (merge vs camera-ready, anonymization, etc.): session PM artifact `product-manager-23d0beab/quality-bar-and-user-requirements.md` (v10) — not duplicated here.
+
 **2 — Regenerate committed vector figures**
 
 Wiring is authoritative in `figures/manifest.json` (script → PDF → TeX consumers). The thin driver is:

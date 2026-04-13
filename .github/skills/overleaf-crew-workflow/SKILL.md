@@ -20,6 +20,8 @@ description: Use when editing this NeurIPS/Overleaf paper repo with multiple age
 ## Figures
 
 - Treat generated **PDF** under `figures/` as the single source of truth for vector figures when the paper includes them.
+- **Wiring contract:** `figures/manifest.json` lists each figure’s `id`, `generator` (Python path), `output` (PDF path), and `cited_in` (`.tex` fragments). When adding or renaming a figure, update the manifest first; keep `README.md` in sync or regenerate its table from the manifest.
+- **Batch regen:** `python3 scripts/regenerate_figures.py` runs every generator; `python3 scripts/regenerate_figures.py --dry-run`, `--list`, and `--only <id>` are supported for CI and spot fixes.
 - Regenerate from `scripts/*.py` when the visual or data story changes; avoid maintaining duplicate raster sources unless there is an explicit print-only exception.
 
 ## Knowledge

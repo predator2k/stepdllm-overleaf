@@ -17,6 +17,16 @@ pdflatex -interaction=nonstopmode neurips_2026.tex
 
 ## Regenerate figures (source of truth)
 
+**Canonical wiring for tools and agents:** `figures/manifest.json` (script → PDF → TeX). Regenerate everything with:
+
+```sh
+python3 scripts/regenerate_figures.py
+```
+
+Use `python3 scripts/regenerate_figures.py --help` for `--dry-run`, `--list`, and `--only <id>`.
+
+The table below mirrors the manifest for quick human reading; if they disagree, fix the manifest first.
+
 | Where used | Output file | Script |
 |------------|-------------|--------|
 | `01-intro.tex` (Fig. cross-step) | `figures/attention_multi_position.pdf` | `scripts/plot_cross_step_heatmap.py` |

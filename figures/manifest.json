@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "description": "Authoritative script→PDF→TeX mapping for Step-dLLM figures. Update when adding a figure or changing paths.",
+  "figures": [
+    {
+      "id": "attention_multi_position",
+      "output": "figures/attention_multi_position.pdf",
+      "generator": "scripts/plot_cross_step_heatmap.py",
+      "cited_in": ["01-intro.tex"]
+    },
+    {
+      "id": "attention_similarity_curve",
+      "output": "figures/attention_similarity_curve.pdf",
+      "generator": "scripts/plot_kl_divergence.py",
+      "cited_in": ["01-intro.tex"]
+    },
+    {
+      "id": "panels_6step_2x3",
+      "output": "figures/panels_6step_2x3.pdf",
+      "generator": "scripts/plot_panels_6step.py",
+      "cited_in": ["03-method.tex"]
+    },
+    {
+      "id": "attention_heads_heatmap",
+      "output": "figures/attention_heads_heatmap.pdf",
+      "generator": "scripts/plot_attention_heads_heatmap.py",
+      "cited_in": ["03-method.tex"]
+    },
+    {
+      "id": "attention_budget_cross_head",
+      "output": "figures/attention_budget_cross_head.pdf",
+      "generator": "scripts/plot_attention_budget_curve.py",
+      "cited_in": ["03-method.tex"]
+    },
+    {
+      "id": "step_dllm_overview",
+      "output": "figures/step_dllm_overview.pdf",
+      "generator": "scripts/plot_step_dllm_overview.py",
+      "cited_in": ["03-method.tex"]
+    },
+    {
+      "id": "kernel_speedup",
+      "output": "figures/kernel_speedup.pdf",
+      "generator": "scripts/plot_kernel_speedup.py",
+      "cited_in": ["04-results.tex"]
+    }
+  ]
+}

@@ -8,11 +8,16 @@ position (~95) emerges in Steps 39-41 that is absent in Steps 29-31.
 Data is approximated from the original figure in the paper.
 """
 
+from __future__ import annotations
+
+import argparse
 import pathlib
 
 import matplotlib
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 import numpy as np
 
 # ── Constants ───────────────────────────────────────────────────────────────
@@ -122,11 +127,52 @@ def _build_step_data() -> dict[int, np.ndarray]:
     return data
 
 
-def main() -> None:
-    repo_root = pathlib.Path(__file__).resolve().parent.parent
-    output_path = repo_root / "figures" / "panels_6step_2x3.pdf"
+def build_step_data() -> dict[int, np.ndarray]:
+    """Public entry point for tests and notebooks (same as internal builder)."""
+    return _build_step_data()
 
-    step_data = _build_step_data()
+
+def _parse_arguments(argv: list[str] | None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description=(
+            "Generate Figure 2: attention patterns across six denoising steps "
+            "(2x3 PDF under figures/ by default)."
+        ),
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+        type=pathlib.Path,
+        default=None,
+        metavar="PATH",
+        help=(
+            "Output PDF path. Relative paths are resolved against the repository "
+            "root (default: figures/panels_6step_2x3.pdf)."
+        ),
+    )
+    return parser.parse_args(argv)
+
+
+def _default_output_path(repo_root: pathlib.Path) -> pathlib.Path:
+    return repo_root / "figures" / "panels_6step_2x3.pdf"
+
+
+def _resolve_output_path(
+    repo_root: pathlib.Path,
+    output: pathlib.Path | None,
+) -> pathlib.Path:
+    if output is None:
+        return _default_output_path(repo_root)
+    candidate = pathlib.Path(output)
+    return candidate if candidate.is_absolute() else (repo_root / candidate).resolve()
+
+
+def main(argv: list[str] | None = None) -> None:
+    args = _parse_arguments(argv)
+    repo_root = pathlib.Path(__file__).resolve().parent.parent
+    output_path = _resolve_output_path(repo_root, args.output)
+
+    step_data = build_step_data()
 
     # ── Plot setup ──────────────────────────────────────────────────────
     plt.rcParams.update({
@@ -171,7 +217,6 @@ def main() -> None:
         ax.tick_params(direction="in", length=3)
 
     # Shared legend below the grid
-    from matplotlib.lines import Line2D
     legend_elements = [
         Line2D([0], [0], color="#4477AA", linewidth=1.5, label="Attention"),
         Line2D([0], [0], color="#CCBB44", linestyle="--",
@@ -195,4 +240,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    main(None)

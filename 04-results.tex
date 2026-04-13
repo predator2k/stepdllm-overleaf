@@ -27,7 +27,7 @@ Figure~\ref{fig:kernel} shows that the accuracy gains of Step-dLLM do not come a
 \begin{figure}[t]
     \centering
     \includegraphics[width=1\linewidth]{figures/kernel_speedup.pdf}
-    \caption{Kernel-level wall-clock speedup of the fused block-sparse attention kernel over the dense Flash Attention baseline. Speedup increases with both sequence length and sparsity ratio, reaching $8.6\times$ at 16K tokens with 95\% sparsity.}
+    \caption{Kernel-level wall-clock speedup of the fused block-sparse attention kernel over the dense Flash Attention baseline. Speedup increases with both sequence length and sparsity ratio, reaching $8.6\times$ at 16K tokens with 95\% sparsity. Points follow tabulated values in \texttt{plot\_kernel\_speedup.py} (documented in repository; re-measure on target GPU for camera-ready claims).}
     \label{fig:kernel}
 \end{figure}
 

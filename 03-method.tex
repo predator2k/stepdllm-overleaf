@@ -33,17 +33,17 @@ Motivated by this observation, we allocate the sparse attention budget globally 
     \begin{subfigure}[b]{0.49\columnwidth}
         \centering
         \includegraphics[width=\linewidth]{figures/attention_heads_heatmap.pdf}
-        \caption{Attention patterns of different heads for the same query position, showing head-wise heterogeneity.}
+        \caption{Attention patterns of different heads for the same query (illustrative heatmap).}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\columnwidth}
         \centering
         \includegraphics[width=\linewidth]{figures/attention_budget_cross_head.pdf}
-        \caption{Cumulative attention mass across heads, illustrating varying concentration levels.}
+        \caption{Cumulative attention mass across heads (illustrative curves).}
         \label{fig:budget_cross_head}
     \end{subfigure}
 
-    \caption{Head-wise heterogeneity in attention patterns. (a) Different heads attend to substantially different key positions for the same query. (b) Cumulative attention density varies markedly across heads, indicating different compression sensitivities.}
+    \caption{Head-wise heterogeneity in attention patterns. (a) Different heads attend to substantially different key positions for the same query. (b) Cumulative attention density varies markedly across heads, indicating different compression sensitivities. Both panels are \emph{illustrative} visualizations from \texttt{plot\_attention\_heads\_heatmap.py} and \texttt{plot\_attention\_budget\_curve.py} (documented generators; not undisclosed raw traces).}
     \label{fig:attention_heterogeneity}
 \end{figure}
 

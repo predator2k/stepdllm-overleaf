@@ -11,7 +11,7 @@ As further shown in Figure~\ref{fig:cross_step_curve}, the change between two co
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1.0\linewidth]{figures/panels_6step_2x3.png}
+    \includegraphics[width=1.0\linewidth]{figures/panels_6step_2x3.pdf}
     \caption{Attention patterns across different denoising steps.}
     \label{fig:attention_pattern_across_steps}
 \end{figure}
@@ -21,9 +21,9 @@ As further shown in Figure~\ref{fig:cross_step_curve}, the change between two co
 
 Recent sparse DLM methods reduce inference cost by exploiting sparsity during the denoising process. In particular, SparseD~\cite{wang2025sparsed} performs sparse attention computation by selecting important token interactions according to token-level attention saliency, while other concurrent methods improve efficiency through token-level cache eviction. These designs have shown promising efficiency gains in DLM inference. However, they implicitly treat the token as the primary unit of sparsification, assuming that the importance of a token is largely consistent across attention heads. We find that this assumption is overly coarse for DLMs.
 
-As shown in Figure~\ref{fig: attention_heterogeneity}(a), even for the same query token, different attention heads exhibit substantially different patterns: some focus sharply on a small set of key positions while others attend broadly or emphasize entirely different regions. Applying a uniform sparse mask across all heads therefore risks preserving unnecessary computation in concentrated heads while discarding critical attention scores in dispersed ones.
+As shown in Figure~\ref{fig:attention_heterogeneity}(a), even for the same query token, different attention heads exhibit substantially different patterns: some focus sharply on a small set of key positions while others attend broadly or emphasize entirely different regions. Applying a uniform sparse mask across all heads therefore risks preserving unnecessary computation in concentrated heads while discarding critical attention scores in dispersed ones.
 
-The heterogeneity is also reflected in attention mass concentration. Figure~\ref{fig: attention_heterogeneity}(b) shows that cumulative attention density varies markedly across heads: certain heads retain $90\%$ of their attention mass with only $10\%$ of entries, while others require close to $50\%$. This implies that heads have fundamentally different compression sensitivities and should not share the same sparsity budget.
+The heterogeneity is also reflected in attention mass concentration. Figure~\ref{fig:attention_heterogeneity}(b) shows that cumulative attention density varies markedly across heads: certain heads retain $90\%$ of their attention mass with only $10\%$ of entries, while others require close to $50\%$. This implies that heads have fundamentally different compression sensitivities and should not share the same sparsity budget.
 
 Motivated by this observation, we allocate the sparse attention budget globally across heads rather than enforcing a uniform per-head ratio. This allows concentrated heads to be compressed aggressively while reserving capacity for dispersed but important ones, leading to a better accuracy--efficiency trade-off at the same total computation budget.
 
@@ -38,13 +38,13 @@ Motivated by this observation, we allocate the sparse attention budget globally 
     \hfill
     \begin{subfigure}[b]{0.49\columnwidth}
         \centering
-        \includegraphics[width=\linewidth]{figures/attention_aggregation_step30_layer25_pos151.png}
+        \includegraphics[width=\linewidth]{figures/attention_budget_cross_head.pdf}
         \caption{Cumulative attention mass across heads, illustrating varying concentration levels.}
         \label{fig:budget_cross_head}
     \end{subfigure}
 
     \caption{Head-wise heterogeneity in attention patterns. (a) Different heads attend to substantially different key positions for the same query. (b) Cumulative attention density varies markedly across heads, indicating different compression sensitivities.}
-    \label{fig: attention_heterogeneity}
+    \label{fig:attention_heterogeneity}
 \end{figure}
 
 

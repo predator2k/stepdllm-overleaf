@@ -1,0 +1,5 @@
+# Post-COMMIT full build (Spotlight workflow) — 2026-04-13
+# After commits: b597e22 (abstract), 61dc19b (intro bridge)
+
+pdflatex not on PATH in this environment.
+CI/human: run README 4-step pipeline on neurips_2026.tex after each COMMIT.

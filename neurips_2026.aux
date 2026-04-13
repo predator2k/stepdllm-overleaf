@@ -1,0 +1,226 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{nie2025large,bie2025llada2,ye2025dream}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\citation{wu2025fastdllm}
+\citation{jiang2024minference}
+\citation{wang2025sparsed}
+\def\@LN@column{1}
+\newlabel{fig:cross_step_heatmap}{{1a}{2}{Cross-step attention similarity for representative query positions}{figure.caption.2}{}}
+\newlabel{fig:cross_step_heatmap@cref}{{[subfigure][1][1]1a}{[1][2][]2}{}{}{}}
+\newlabel{sub@fig:cross_step_heatmap}{{a}{2}{Cross-step attention similarity for representative query positions}{figure.caption.2}{}}
+\newlabel{sub@fig:cross_step_heatmap@cref}{{[subfigure][1][1]1a}{[1][2][]2}{}{}{}}
+\newlabel{fig:cross_step_curve}{{1b}{2}{KL divergence between consecutive denoising steps}{figure.caption.2}{}}
+\newlabel{fig:cross_step_curve@cref}{{[subfigure][2][1]1b}{[1][2][]2}{}{}{}}
+\newlabel{sub@fig:cross_step_curve}{{b}{2}{KL divergence between consecutive denoising steps}{figure.caption.2}{}}
+\newlabel{sub@fig:cross_step_curve@cref}{{[subfigure][2][1]1b}{[1][2][]2}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Attention patterns in DLMs are locally consistent but not globally stationary across denoising steps. (a) Cross-step similarity heatmaps show high similarity within nearby steps but clear discrepancies between distant ones. (b) KL divergence between consecutive steps reveals sharp spikes at transition points, indicating abrupt pattern shifts.}}{2}{figure.caption.2}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:cross_step}{{1}{2}{Attention patterns in DLMs are locally consistent but not globally stationary across denoising steps. (a) Cross-step similarity heatmaps show high similarity within nearby steps but clear discrepancies between distant ones. (b) KL divergence between consecutive steps reveals sharp spikes at transition points, indicating abrupt pattern shifts}{figure.caption.2}{}}
+\newlabel{fig:cross_step@cref}{{[figure][1][]1}{[1][2][]2}{}{}{}}
+\citation{austin2021d3pm}
+\citation{lou2024sedd}
+\citation{sahoo2024mdlm}
+\citation{nie2025llada}
+\citation{you2025lladav}
+\citation{llada-moe2025}
+\citation{zhu2025llada15}
+\citation{arriola2025block,llada2,wu2025fastdllm,d2f2025}
+\citation{yuan2024ditfastattn,zhang2025spargeattn,liteattention2025}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Background and Related Work}{3}{section.2}\protected@file@percent }
+\newlabel{sec:background}{{2}{3}{Background and Related Work}{section.2}{}}
+\newlabel{sec:background@cref}{{[section][2][]2}{[1][3][]3}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Preliminaries: Discrete Diffusion Language Models}{3}{subsection.2.1}\protected@file@percent }
+\newlabel{sec:prelim}{{2.1}{3}{Preliminaries: Discrete Diffusion Language Models}{subsection.2.1}{}}
+\newlabel{sec:prelim@cref}{{[subsection][1][2]2.1}{[1][3][]3}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Related Work}{3}{subsection.2.2}\protected@file@percent }
+\newlabel{sec:related}{{2.2}{3}{Related Work}{subsection.2.2}{}}
+\newlabel{sec:related@cref}{{[subsection][2][2]2.2}{[1][3][]3}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Diffusion language models.}{3}{section*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Efficient inference for dLLMs.}{3}{section*.4}\protected@file@percent }
+\citation{child2019sparse,beltagy2020longformer,zaheer2020bigbird}
+\citation{jiang2024minference,tang2024quest,zhu2025tactic,gao2024seerattention,yuan2025nsa}
+\citation{dao2022flashattention,dao2023flashattention2,ye2025flashinfer,xu2025xattention}
+\citation{wang2025sparsed}
+\citation{wang2025sparsed}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {paragraph}{Sparse attention.}{4}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Analysis and Motivations}{4}{section.3}\protected@file@percent }
+\newlabel{sec:analysis}{{3}{4}{Analysis and Motivations}{section.3}{}}
+\newlabel{sec:analysis@cref}{{[section][3][]3}{[1][4][]4}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Cross-step attention similarity}{4}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Head-wise Heterogeneity in Sparse Attention}{4}{subsection.3.2}\protected@file@percent }
+\def\@LN@column{1}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Attention patterns across different denoising steps.}}{5}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:attention_pattern_across_steps}{{2}{5}{Attention patterns across different denoising steps}{figure.caption.6}{}}
+\newlabel{fig:attention_pattern_across_steps@cref}{{[figure][2][]2}{[1][4][]5}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Methodology}{5}{section.4}\protected@file@percent }
+\newlabel{sec:method}{{4}{5}{Methodology}{section.4}{}}
+\newlabel{sec:method@cref}{{[section][4][]4}{[1][5][]5}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Cross-Step Sparse Mask Reuse}{5}{subsection.4.1}\protected@file@percent }
+\newlabel{sec:mask_reuse}{{4.1}{5}{Cross-Step Sparse Mask Reuse}{subsection.4.1}{}}
+\newlabel{sec:mask_reuse@cref}{{[subsection][1][4]4.1}{[1][5][]5}{}{}{}}
+\def\@LN@column{1}
+\newlabel{fig:budget_cross_head}{{3b}{6}{Cumulative attention mass across heads, illustrating varying concentration levels}{figure.caption.7}{}}
+\newlabel{fig:budget_cross_head@cref}{{[subfigure][2][3]3b}{[1][5][]6}{}{}{}}
+\newlabel{sub@fig:budget_cross_head}{{b}{6}{Cumulative attention mass across heads, illustrating varying concentration levels}{figure.caption.7}{}}
+\newlabel{sub@fig:budget_cross_head@cref}{{[subfigure][2][3]3b}{[1][5][]6}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Head-wise heterogeneity in attention patterns. (a) Different heads attend to substantially different key positions for the same query. (b) Cumulative attention density varies markedly across heads, indicating different compression sensitivities.}}{6}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:attention_heterogeneity}{{3}{6}{Head-wise heterogeneity in attention patterns. (a) Different heads attend to substantially different key positions for the same query. (b) Cumulative attention density varies markedly across heads, indicating different compression sensitivities}{figure.caption.7}{}}
+\newlabel{fig:attention_heterogeneity@cref}{{[figure][3][]3}{[1][5][]6}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Overview of \textbf  {Step-dLLM}. Anchor steps compute full attention and extract a block-sparse mask via a fused kernel. Non-anchor steps reuse the cached mask with fresh $\mathbf  {Q}, \mathbf  {K}, \mathbf  {V}$, reducing per-step cost from $\mathcal  {O}(L^2)$ to $\mathcal  {O}(L \cdot k \cdot b)$. The mask is periodically refreshed every $\Delta $ steps.}}{6}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:step_dllm_overview}{{4}{6}{Overview of \textbf {Step-dLLM}. Anchor steps compute full attention and extract a block-sparse mask via a fused kernel. Non-anchor steps reuse the cached mask with fresh $\mathbf {Q}, \mathbf {K}, \mathbf {V}$, reducing per-step cost from $\mathcal {O}(L^2)$ to $\mathcal {O}(L \cdot k \cdot b)$. The mask is periodically refreshed every $\Delta $ steps}{figure.caption.8}{}}
+\newlabel{fig:step_dllm_overview@cref}{{[figure][4][]4}{[1][5][]6}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Anchor steps}{6}{section*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Non-anchor steps}{6}{section*.10}\protected@file@percent }
+\def\@LN@column{1}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Step-dLLM Inference}}{7}{algorithm.1}\protected@file@percent }
+\newlabel{alg:step_aware_sparse}{{1}{7}{Step-dLLM Inference}{algorithm.1}{}}
+\newlabel{alg:step_aware_sparse@cref}{{[algorithm][1][]1}{[1][7][]7}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Block-Sparse Mask Construction with Head-Adaptive Budget}{7}{subsection.4.2}\protected@file@percent }
+\newlabel{sec:mask_construction}{{4.2}{7}{Block-Sparse Mask Construction with Head-Adaptive Budget}{subsection.4.2}{}}
+\newlabel{sec:mask_construction@cref}{{[subsection][2][4]4.2}{[1][7][]7}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Block-level saliency scoring.}{7}{section*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Head-adaptive budget allocation.}{7}{section*.12}\protected@file@percent }
+\newlabel{eq:budget}{{4}{7}{Head-adaptive budget allocation}{equation.4}{}}
+\newlabel{eq:budget@cref}{{[equation][4][]4}{[1][7][]7}{}{}{}}
+\citation{tillet2019triton}
+\citation{dao2022flashattention}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Fused Triton Kernel Implementation}{8}{subsection.4.3}\protected@file@percent }
+\newlabel{sec:kernels}{{4.3}{8}{Fused Triton Kernel Implementation}{subsection.4.3}{}}
+\newlabel{sec:kernels@cref}{{[subsection][3][4]4.3}{[1][8][]8}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experiments}{8}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Experimental Setup}{8}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Main Results}{8}{subsection.5.2}\protected@file@percent }
+\def\@LN@column{1}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Main results on LLaDA-1.5 with block size 16. All values are accuracy (\%). \textbf  {Bold} marks the best result per sparsity level (excluding Dense).}}{9}{table.caption.13}\protected@file@percent }
+\newlabel{tab:main-bs16-llada}{{1}{9}{Main results on LLaDA-1.5 with block size 16. All values are accuracy (\%). \textbf {Bold} marks the best result per sparsity level (excluding Dense)}{table.caption.13}{}}
+\newlabel{tab:main-bs16-llada@cref}{{[table][1][]1}{[1][9][]9}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Main results on Dream-7B-Instruct with block size 16. All values are accuracy (\%). \textbf  {Bold} marks the best result per sparsity level (excluding Dense).}}{9}{table.caption.14}\protected@file@percent }
+\newlabel{tab:main-bs16-dream}{{2}{9}{Main results on Dream-7B-Instruct with block size 16. All values are accuracy (\%). \textbf {Bold} marks the best result per sparsity level (excluding Dense)}{table.caption.14}{}}
+\newlabel{tab:main-bs16-dream@cref}{{[table][2][]2}{[1][9][]9}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Kernel-level efficiency.}{9}{section*.15}\protected@file@percent }
+\def\@LN@column{1}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Kernel-level wall-clock speedup of the fused block-sparse attention kernel over the dense Flash Attention baseline. Speedup increases with both sequence length and sparsity ratio, reaching $8.6\times $ at 16K tokens with 95\% sparsity.}}{10}{figure.caption.16}\protected@file@percent }
+\newlabel{fig:kernel}{{5}{10}{Kernel-level wall-clock speedup of the fused block-sparse attention kernel over the dense Flash Attention baseline. Speedup increases with both sequence length and sparsity ratio, reaching $8.6\times $ at 16K tokens with 95\% sparsity}{figure.caption.16}{}}
+\newlabel{fig:kernel@cref}{{[figure][5][]5}{[1][9][]10}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Ablation Studies}{10}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Refresh frequency.}{10}{section*.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Head-adaptive budget.}{10}{section*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Block size.}{10}{section*.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{10}{section.6}\protected@file@percent }
+\def\@LN@column{1}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Ablation on mask refresh frequency (LLaDA-1.5, block size 16). Frequency $f$ means the mask is refreshed every $f \times N_{\text  {steps}}$ steps; lower $f$ corresponds to more frequent updates. All values are accuracy (\%). \textbf  {Bold} marks the best per sparsity level.}}{11}{table.caption.20}\protected@file@percent }
+\newlabel{tab:ablation-freq}{{3}{11}{Ablation on mask refresh frequency (LLaDA-1.5, block size 16). Frequency $f$ means the mask is refreshed every $f \times N_{\text {steps}}$ steps; lower $f$ corresponds to more frequent updates. All values are accuracy (\%). \textbf {Bold} marks the best per sparsity level}{table.caption.20}{}}
+\newlabel{tab:ablation-freq@cref}{{[table][3][]3}{[1][10][]11}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Ablation on block size (LLaDA-1.5). Accuracy (\%) on short-form benchmarks under block sizes 16 and 32. Step-dLLM consistently outperforms SparseD at both granularities. \textbf  {Bold} marks the best per row.}}{11}{table.caption.21}\protected@file@percent }
+\newlabel{tab:ablation-blocksize}{{4}{11}{Ablation on block size (LLaDA-1.5). Accuracy (\%) on short-form benchmarks under block sizes 16 and 32. Step-dLLM consistently outperforms SparseD at both granularities. \textbf {Bold} marks the best per row}{table.caption.21}{}}
+\newlabel{tab:ablation-blocksize@cref}{{[table][4][]4}{[1][10][]11}{}{}{}}
+\bibdata{example_paper}
+\bibcite{arriola2025block}{{1}{2025}{{Arriola et~al.}}{{Arriola, Gokaslan, Chiu, Yang, Qi, Han, Sahoo, and Kuleshov}}}
+\bibcite{austin2021d3pm}{{2}{2021}{{Austin et~al.}}{{Austin, Johnson, Ho, Tarlow, and Van Den~Berg}}}
+\bibcite{beltagy2020longformer}{{3}{2020}{{Beltagy et~al.}}{{Beltagy, Peters, and Cohan}}}
+\bibcite{bie2025llada2}{{4}{2025{a}}{{Bie et~al.}}{{Bie, Cao, Chen, Du, Gong, Gong, Gu, Hu, Huang, Lan, Li, Li, Li, Li, Liu, Liu, Lu, Lu, Ma, Tan, Wei, Wen, Xing, Zhang, Zhao, Zheng, Zhou, Zhou, Zhou, Zhu, and Zhuang}}}
+\bibcite{llada2}{{5}{2025{b}}{{Bie et~al.}}{{Bie, Cao, Chen, Du, Gong, Gong, Gu, Hu, Huang, Lan, Li, Li, Li, Li, Liu, Liu, Lu, Lu, Ma, Tan, Wei, Wen, Xing, Zhang, Zhao, Zheng, Zhou, Zhou, Zhou, Zhu, and Zhuang}}}
+\bibcite{child2019sparse}{{6}{2019}{{Child et~al.}}{{Child, Gray, Radford, and Sutskever}}}
+\bibcite{dao2023flashattention2}{{7}{2024}{{Dao}}{{}}}
+\bibcite{dao2022flashattention}{{8}{2022}{{Dao et~al.}}{{Dao, Fu, Ermon, Rudra, and R{\'e}}}}
+\bibcite{gao2024seerattention}{{9}{2024}{{Gao et~al.}}{{Gao, Zeng, Du, Cao, Zhou, Qi, Lai, So, Cao, Yang, and Yang}}}
+\bibcite{jiang2024minference}{{10}{2024}{{Jiang et~al.}}{{Jiang, Li, Zhang, Wu, Luo, Ahn, Han, Abdi, Li, Lin, Yang, and Qiu}}}
+\bibcite{lou2024sedd}{{11}{2024}{{Lou et~al.}}{{Lou, Meng, and Ermon}}}
+\bibcite{nie2025large}{{12}{2025{a}}{{Nie et~al.}}{{Nie, Zhu, You, Zhang, Ou, Hu, Zhou, Lin, Wen, and Li}}}
+\bibcite{nie2025llada}{{13}{2025{b}}{{Nie et~al.}}{{Nie, Zhu, You, Zhang, Ou, Hu, Zhou, Lin, Wen, and Li}}}
+\bibcite{sahoo2024mdlm}{{14}{2024}{{Sahoo et~al.}}{{Sahoo, Arriola, Gokaslan, Marroquin, Rush, Schiff, Chiu, and Kuleshov}}}
+\def\@LN@column{1}
+\bibcite{liteattention2025}{{15}{2025}{{Shmilovich et~al.}}{{Shmilovich, Wu, Dahan, and Domb}}}
+\bibcite{tang2024quest}{{16}{2024}{{Tang et~al.}}{{Tang, Zhao, Zhu, Xiao, Kasikci, and Han}}}
+\bibcite{tillet2019triton}{{17}{2019}{{Tillet et~al.}}{{Tillet, Kung, and Cox}}}
+\bibcite{d2f2025}{{18}{2025{a}}{{Wang et~al.}}{{Wang, Xu, Jin, Jin, Zhang, and Deng}}}
+\bibcite{wang2025sparsed}{{19}{2025{b}}{{Wang et~al.}}{{Wang, Fang, Ma, Yang, and Wang}}}
+\bibcite{wu2025fastdllm}{{20}{2025}{{Wu et~al.}}{{Wu, Zhang, Xue, Liu, Diao, Zhu, Luo, Han, and Xie}}}
+\bibcite{xu2025xattention}{{21}{2025}{{Xu et~al.}}{{Xu, Xiao, Huang, Guo, and Han}}}
+\bibcite{ye2025dream}{{22}{2025{a}}{{Ye et~al.}}{{Ye, Xie, Zheng, Gao, Wu, Jiang, Li, and Kong}}}
+\bibcite{ye2025flashinfer}{{23}{2025{b}}{{Ye et~al.}}{{Ye, Chen, Lai, Lin, Zhang, Wang, Chen, Kasikci, Grover, Krishnamurthy, and Ceze}}}
+\bibcite{you2025lladav}{{24}{2025}{{You et~al.}}{{You, Nie, Zhang, Hu, Zhou, Lu, Wen, and Li}}}
+\bibcite{yuan2025nsa}{{25}{2025}{{Yuan et~al.}}{{Yuan, Gao, Dai, Luo, Zhao, Zhang, Xie, Wei, Wang, Xiao, Wang, Ruan, Zhang, Liang, and Zeng}}}
+\bibcite{yuan2024ditfastattn}{{26}{2024}{{Yuan et~al.}}{{Yuan, Zhang, Lu, Ning, Zhang, Zhao, Yan, Dai, and Wang}}}
+\bibcite{zaheer2020bigbird}{{27}{2020}{{Zaheer et~al.}}{{Zaheer, Guruganesh, Dubey, Ainslie, Alberti, Ontanon, Pham, Ravula, Wang, Yang, et~al.}}}
+\bibcite{zhang2025spargeattn}{{28}{2025}{{Zhang et~al.}}{{Zhang, Cheng, Huang, Wei, Zhu, and Chen}}}
+\bibcite{zhu2025llada15}{{29}{2025{a}}{{Zhu et~al.}}{{Zhu, Wang, Nie, Zhang, Wu, Hu, Zhou, Chen, Lin, Wen, and Li}}}
+\bibcite{llada-moe2025}{{30}{2025{b}}{{Zhu et~al.}}{{Zhu, You, Xing, Huang, Liu, Zhuang, Lu, Wang, Wang, Wei, Guo, Hu, Ye, Chen, Li, Tang, Feng, Hu, Zhou, Zhang, Lan, Zhao, Zheng, Li, Li, and Wen}}}
+\def\@LN@column{1}
+\bibcite{zhu2025tactic}{{31}{2025{c}}{{Zhu et~al.}}{{Zhu, Tang, Xu, Gu, Zeng, Kadekodi, Zhao, Li, Krishnamurthy, and Kasikci}}}
+\bibstyle{plainnat}
+\citation{nie2025llada}
+\citation{ye2025dream}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Experimental Details}{14}{appendix.A}\protected@file@percent }
+\newlabel{app:details}{{A}{14}{Experimental Details}{appendix.A}{}}
+\newlabel{app:details@cref}{{[section][1][]A}{[1][14][]14}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Model Details}{14}{subsection.A.1}\protected@file@percent }
+\newlabel{app:models}{{A.1}{14}{Model Details}{subsection.A.1}{}}
+\newlabel{app:models@cref}{{[subsection][1][1]A.1}{[1][14][]14}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Dataset Details}{14}{subsection.A.2}\protected@file@percent }
+\newlabel{app:datasets}{{A.2}{14}{Dataset Details}{subsection.A.2}{}}
+\newlabel{app:datasets@cref}{{[subsection][2][1]A.2}{[1][14][]14}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Baseline Details}{14}{subsection.A.3}\protected@file@percent }
+\newlabel{app:baselines}{{A.3}{14}{Baseline Details}{subsection.A.3}{}}
+\newlabel{app:baselines@cref}{{[subsection][3][1]A.3}{[1][14][]14}{}{}{}}
+\@writefile{toc}{\contentsline {paragraph}{Dense.}{14}{section*.23}\protected@file@percent }
+\citation{wang2025sparsed}
+\citation{wu2025fastdllm}
+\def\@LN@column{1}
+\@writefile{toc}{\contentsline {paragraph}{StreamingLLM.}{15}{section*.24}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{SparseD~\citep  {wang2025sparsed}.}{15}{section*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Fast-dLLM~\citep  {wu2025fastdllm}.}{15}{section*.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.4}Hardware and Runtime Environment}{15}{subsection.A.4}\protected@file@percent }
+\newlabel{app:hardware}{{A.4}{15}{Hardware and Runtime Environment}{subsection.A.4}{}}
+\newlabel{app:hardware@cref}{{[subsection][4][1]A.4}{[1][15][]15}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.5}Hyperparameter Summary}{15}{subsection.A.5}\protected@file@percent }
+\newlabel{app:hyperparams}{{A.5}{15}{Hyperparameter Summary}{subsection.A.5}{}}
+\newlabel{app:hyperparams@cref}{{[subsection][5][1]A.5}{[1][15][]15}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Hyperparameter settings for Step-dLLM.}}{15}{table.caption.27}\protected@file@percent }
+\newlabel{tab:hyperparams}{{5}{15}{Hyperparameter settings for Step-dLLM}{table.caption.27}{}}
+\newlabel{tab:hyperparams@cref}{{[table][5][]5}{[1][15][]15}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {B}Additional Results}{15}{appendix.B}\protected@file@percent }
+\newlabel{app:additional-results}{{B}{15}{Additional Results}{appendix.B}{}}
+\newlabel{app:additional-results@cref}{{[section][2][]B}{[1][15][]15}{}{}{}}
+\def\@LN@column{1}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Long-context results on LLaDA-1.5 with block size 16 (NIAH and RULER benchmarks). All values are accuracy (\%). \textbf  {Bold} marks the best result per sparsity level (excluding Dense).}}{16}{table.caption.28}\protected@file@percent }
+\newlabel{tab:main-bs16-llada-long}{{6}{16}{Long-context results on LLaDA-1.5 with block size 16 (NIAH and RULER benchmarks). All values are accuracy (\%). \textbf {Bold} marks the best result per sparsity level (excluding Dense)}{table.caption.28}{}}
+\newlabel{tab:main-bs16-llada-long@cref}{{[table][6][]6}{[1][15][]16}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Main results on LLaDA-1.5 with block size 32. All values are accuracy (\%). \textbf  {Bold} marks the best result per sparsity level (excluding Dense).}}{16}{table.caption.29}\protected@file@percent }
+\newlabel{tab:main-bs32-llada}{{7}{16}{Main results on LLaDA-1.5 with block size 32. All values are accuracy (\%). \textbf {Bold} marks the best result per sparsity level (excluding Dense)}{table.caption.29}{}}
+\newlabel{tab:main-bs32-llada@cref}{{[table][7][]7}{[1][15][]16}{}{}{}}
+\def\@LN@column{1}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Main results on Dream-7B-Instruct with block size 32. All values are accuracy (\%). \textbf  {Bold} marks the best result per sparsity level (excluding Dense).}}{17}{table.caption.30}\protected@file@percent }
+\newlabel{tab:main-bs32-dream}{{8}{17}{Main results on Dream-7B-Instruct with block size 32. All values are accuracy (\%). \textbf {Bold} marks the best result per sparsity level (excluding Dense)}{table.caption.30}{}}
+\newlabel{tab:main-bs32-dream@cref}{{[table][8][]8}{[1][15][]17}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}LLaDA-1.5 Long-Context Results (Block Size 16)}{17}{subsection.B.1}\protected@file@percent }
+\newlabel{app:llada-long}{{B.1}{17}{LLaDA-1.5 Long-Context Results (Block Size 16)}{subsection.B.1}{}}
+\newlabel{app:llada-long@cref}{{[subsection][1][2]B.1}{[1][15][]17}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}LLaDA-1.5 Results with Block Size 32}{17}{subsection.B.2}\protected@file@percent }
+\newlabel{app:llada-bs32}{{B.2}{17}{LLaDA-1.5 Results with Block Size 32}{subsection.B.2}{}}
+\newlabel{app:llada-bs32@cref}{{[subsection][2][2]B.2}{[1][15][]17}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.3}Dream-7B-Instruct Results with Block Size 32}{17}{subsection.B.3}\protected@file@percent }
+\newlabel{app:dream-bs32}{{B.3}{17}{Dream-7B-Instruct Results with Block Size 32}{subsection.B.3}{}}
+\newlabel{app:dream-bs32@cref}{{[subsection][3][2]B.3}{[1][15][]17}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.4}Kernel-Level Efficiency}{17}{subsection.B.4}\protected@file@percent }
+\newlabel{app:kernel-level}{{B.4}{17}{Kernel-Level Efficiency}{subsection.B.4}{}}
+\newlabel{app:kernel-level@cref}{{[subsection][4][2]B.4}{[1][15][]17}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Kernel-level efficiency of Step-dLLM\xspace  sparse attention. Wall-clock time (ms) for a single attention forward pass at various sequence lengths and sparsity levels. Speedup is computed relative to the dense baseline.}}{17}{table.caption.31}\protected@file@percent }
+\newlabel{tab:main-kernel-level}{{9}{17}{Kernel-level efficiency of \name sparse attention. Wall-clock time (ms) for a single attention forward pass at various sequence lengths and sparsity levels. Speedup is computed relative to the dense baseline}{table.caption.31}{}}
+\newlabel{tab:main-kernel-level@cref}{{[table][9][]9}{[1][15][]17}{}{}{}}
+\def\@LN@column{1}
+\def\@LN@column{1}
+\def\@LN@column{1}
+\def\@LN@column{1}
+\def\@LN@column{1}
+\def\@LN@column{1}
+\def\@LN@column{1}
+\gdef \@abspage@last{24}

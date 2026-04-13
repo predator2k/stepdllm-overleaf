@@ -1,0 +1,164 @@
+\begin{thebibliography}{31}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Arriola et~al.(2025)Arriola, Gokaslan, Chiu, Yang, Qi, Han, Sahoo, and Kuleshov]{arriola2025block}
+Marianne Arriola, Aaron Gokaslan, Justin~T Chiu, Zhihan Yang, Zhixuan Qi, Jiaqi Han, Subham~Sekhar Sahoo, and Volodymyr Kuleshov.
+\newblock Block diffusion: Interpolating between autoregressive and diffusion language models.
+\newblock In \emph{International Conference on Learning Representations}, 2025.
+
+\bibitem[Austin et~al.(2021)Austin, Johnson, Ho, Tarlow, and Van Den~Berg]{austin2021d3pm}
+Jacob Austin, Daniel~D Johnson, Jonathan Ho, Daniel Tarlow, and Rianne Van Den~Berg.
+\newblock Structured denoising diffusion models in discrete state-spaces.
+\newblock In \emph{Advances in Neural Information Processing Systems}, volume~34, pages 17981--17993, 2021.
+
+\bibitem[Beltagy et~al.(2020)Beltagy, Peters, and Cohan]{beltagy2020longformer}
+Iz~Beltagy, Matthew~E Peters, and Arman Cohan.
+\newblock Longformer: The long-document transformer.
+\newblock \emph{arXiv preprint arXiv:2004.05150}, 2020.
+
+\bibitem[Bie et~al.(2025{\natexlab{a}})Bie, Cao, Chen, Du, Gong, Gong, Gu, Hu, Huang, Lan, Li, Li, Li, Li, Liu, Liu, Lu, Lu, Ma, Tan, Wei, Wen, Xing, Zhang, Zhao, Zheng, Zhou, Zhou, Zhou, Zhu, and Zhuang]{bie2025llada2}
+Tiwei Bie, Maosong Cao, Kun Chen, Lun Du, Mingliang Gong, Zhuochen Gong, Yanmei Gu, Jiaqi Hu, Zenan Huang, Zhenzhong Lan, Chengxi Li, Chongxuan Li, Jianguo Li, Zehuan Li, Huabin Liu, Lin Liu, Guoshan Lu, Xiaocheng Lu, Yuxin Ma, Jianfeng Tan, Lanning Wei, Ji-Rong Wen, Yipeng Xing, Xiaolu Zhang, Junbo Zhao, Da~Zheng, Jun Zhou, Junlin Zhou, Zhanchao Zhou, Liwang Zhu, and Yihong Zhuang.
+\newblock Llada2. 0: Scaling up diffusion language models to 100b.
+\newblock \emph{arXiv preprint arXiv:2512.15745}, 2025{\natexlab{a}}.
+
+\bibitem[Bie et~al.(2025{\natexlab{b}})Bie, Cao, Chen, Du, Gong, Gong, Gu, Hu, Huang, Lan, Li, Li, Li, Li, Liu, Liu, Lu, Lu, Ma, Tan, Wei, Wen, Xing, Zhang, Zhao, Zheng, Zhou, Zhou, Zhou, Zhu, and Zhuang]{llada2}
+Tiwei Bie, Maosong Cao, Kun Chen, Lun Du, Mingliang Gong, Zhuochen Gong, Yanmei Gu, Jiaqi Hu, Zenan Huang, Zhenzhong Lan, Chengxi Li, Chongxuan Li, Jianguo Li, Zehuan Li, Huabin Liu, Lin Liu, Guoshan Lu, Xiaocheng Lu, Yuxin Ma, Jianfeng Tan, Lanning Wei, Ji-Rong Wen, Yipeng Xing, Xiaolu Zhang, Junbo Zhao, Da~Zheng, Jun Zhou, Junlin Zhou, Zhanchao Zhou, Liwang Zhu, and Yihong Zhuang.
+\newblock {LLaDA} 2.0 technical report.
+\newblock \emph{arXiv preprint arXiv:2512.15745}, 2025{\natexlab{b}}.
+\newblock 100B-parameter block diffusion language model.
+
+\bibitem[Child et~al.(2019)Child, Gray, Radford, and Sutskever]{child2019sparse}
+Rewon Child, Scott Gray, Alec Radford, and Ilya Sutskever.
+\newblock Generating long sequences with sparse transformers.
+\newblock \emph{arXiv preprint arXiv:1904.10509}, 2019.
+
+\bibitem[Dao(2024)]{dao2023flashattention2}
+Tri Dao.
+\newblock {FlashAttention-2}: Faster attention with better parallelism and work partitioning.
+\newblock In \emph{International Conference on Learning Representations}, 2024.
+
+\bibitem[Dao et~al.(2022)Dao, Fu, Ermon, Rudra, and R{\'e}]{dao2022flashattention}
+Tri Dao, Dan Fu, Stefano Ermon, Atri Rudra, and Christopher R{\'e}.
+\newblock {FlashAttention}: Fast and memory-efficient exact attention with {IO}-awareness.
+\newblock In \emph{Advances in Neural Information Processing Systems}, volume~35, 2022.
+
+\bibitem[Gao et~al.(2024)Gao, Zeng, Du, Cao, Zhou, Qi, Lai, So, Cao, Yang, and Yang]{gao2024seerattention}
+Yizhao Gao, Zhichen Zeng, Dayou Du, Shijie Cao, Peiyuan Zhou, Jiaxing Qi, Junjie Lai, Hayden Kwok-Hay So, Ting Cao, Fan Yang, and Mao Yang.
+\newblock {SeerAttention}: Learning intrinsic sparse attention in your {LLMs}.
+\newblock \emph{arXiv preprint arXiv:2410.13276}, 2024.
+
+\bibitem[Jiang et~al.(2024)Jiang, Li, Zhang, Wu, Luo, Ahn, Han, Abdi, Li, Lin, Yang, and Qiu]{jiang2024minference}
+Huiqiang Jiang, Yucheng Li, Chengruidong Zhang, Qianhui Wu, Xufang Luo, Surin Ahn, Zhenhua Han, Amir~H Abdi, Dongsheng Li, Chin-Yew Lin, Yuqing Yang, and Lili Qiu.
+\newblock {MI}nference 1.0: Accelerating pre-filling for long-context {LLMs} via dynamic sparse attention.
+\newblock In \emph{Advances in Neural Information Processing Systems}, volume~37, pages 52481--52515, 2024.
+
+\bibitem[Lou et~al.(2024)Lou, Meng, and Ermon]{lou2024sedd}
+Aaron Lou, Chenlin Meng, and Stefano Ermon.
+\newblock Discrete diffusion modeling by estimating the ratios of the data distribution.
+\newblock In \emph{International Conference on Machine Learning}, 2024.
+
+\bibitem[Nie et~al.(2025{\natexlab{a}})Nie, Zhu, You, Zhang, Ou, Hu, Zhou, Lin, Wen, and Li]{nie2025large}
+Shen Nie, Fengqi Zhu, Zebin You, Xiaolu Zhang, Jingyang Ou, Jun Hu, Jun Zhou, Yankai Lin, Ji-Rong Wen, and Chongxuan Li.
+\newblock Large language diffusion models.
+\newblock \emph{arXiv preprint arXiv:2502.09992}, 2025{\natexlab{a}}.
+
+\bibitem[Nie et~al.(2025{\natexlab{b}})Nie, Zhu, You, Zhang, Ou, Hu, Zhou, Lin, Wen, and Li]{nie2025llada}
+Shen Nie, Fengqi Zhu, Zebin You, Xiaolu Zhang, Jingyang Ou, Jun Hu, Jun Zhou, Yankai Lin, Ji-Rong Wen, and Chongxuan Li.
+\newblock Large language diffusion models.
+\newblock \emph{arXiv preprint arXiv:2502.09992}, 2025{\natexlab{b}}.
+
+\bibitem[Sahoo et~al.(2024)Sahoo, Arriola, Gokaslan, Marroquin, Rush, Schiff, Chiu, and Kuleshov]{sahoo2024mdlm}
+Subham~Sekhar Sahoo, Marianne Arriola, Aaron Gokaslan, Edgar~Mariano Marroquin, Alexander~M Rush, Yair Schiff, Justin~T Chiu, and Volodymyr Kuleshov.
+\newblock Simple and effective masked diffusion language models.
+\newblock In \emph{The Thirty-eighth Annual Conference on Neural Information Processing Systems}, 2024.
+
+\bibitem[Shmilovich et~al.(2025)Shmilovich, Wu, Dahan, and Domb]{liteattention2025}
+Dor Shmilovich, Tony Wu, Aviad Dahan, and Yuval Domb.
+\newblock {LiteAttention}: A temporal sparse attention for diffusion transformers.
+\newblock \emph{arXiv preprint arXiv:2511.11062}, 2025.
+
+\bibitem[Tang et~al.(2024)Tang, Zhao, Zhu, Xiao, Kasikci, and Han]{tang2024quest}
+Jiaming Tang, Yilong Zhao, Kan Zhu, Guangxuan Xiao, Baris Kasikci, and Song Han.
+\newblock {Quest}: Query-aware sparsity for efficient long-context {LLM} inference.
+\newblock In \emph{Proceedings of the 41st International Conference on Machine Learning}, 2024.
+
+\bibitem[Tillet et~al.(2019)Tillet, Kung, and Cox]{tillet2019triton}
+Philippe Tillet, Hsiang-Tsung Kung, and David Cox.
+\newblock Triton: An intermediate language and compiler for tiled neural network computations.
+\newblock \emph{Proceedings of the 3rd ACM SIGPLAN International Workshop on Machine Learning and Programming Languages}, pages 10--19, 2019.
+
+\bibitem[Wang et~al.(2025{\natexlab{a}})Wang, Xu, Jin, Jin, Zhang, and Deng]{d2f2025}
+Xu~Wang, Chenkai Xu, Yijie Jin, Jiachun Jin, Hao Zhang, and Zhijie Deng.
+\newblock Diffusion {LLMs} can do faster-than-{AR} inference via discrete diffusion forcing.
+\newblock \emph{arXiv preprint arXiv:2508.09192}, 2025{\natexlab{a}}.
+
+\bibitem[Wang et~al.(2025{\natexlab{b}})Wang, Fang, Ma, Yang, and Wang]{wang2025sparsed}
+Zeqing Wang, Gongfan Fang, Xinyin Ma, Xingyi Yang, and Xinchao Wang.
+\newblock Sparsed: Sparse attention for diffusion language models.
+\newblock \emph{arXiv preprint arXiv:2509.24014}, 2025{\natexlab{b}}.
+
+\bibitem[Wu et~al.(2025)Wu, Zhang, Xue, Liu, Diao, Zhu, Luo, Han, and Xie]{wu2025fastdllm}
+Chengyue Wu, Hao Zhang, Shuchen Xue, Zhijian Liu, Shizhe Diao, Ligeng Zhu, Ping Luo, Song Han, and Enze Xie.
+\newblock Fast-{dLLM}: Training-free acceleration for diffusion large language models.
+\newblock \emph{arXiv preprint arXiv:2505.22618}, 2025.
+
+\bibitem[Xu et~al.(2025)Xu, Xiao, Huang, Guo, and Han]{xu2025xattention}
+Ruyi Xu, Guangxuan Xiao, Haofeng Huang, Junxian Guo, and Song Han.
+\newblock {XAttention}: Block sparse attention with antidiagonal scoring.
+\newblock In \emph{Proceedings of the 42nd International Conference on Machine Learning}, 2025.
+
+\bibitem[Ye et~al.(2025{\natexlab{a}})Ye, Xie, Zheng, Gao, Wu, Jiang, Li, and Kong]{ye2025dream}
+Jiacheng Ye, Zhihui Xie, Lin Zheng, Jiahui Gao, Zirui Wu, Xin Jiang, Zhenguo Li, and Lingpeng Kong.
+\newblock Dream 7b: Diffusion large language models.
+\newblock \emph{arXiv preprint arXiv:2508.15487}, 2025{\natexlab{a}}.
+
+\bibitem[Ye et~al.(2025{\natexlab{b}})Ye, Chen, Lai, Lin, Zhang, Wang, Chen, Kasikci, Grover, Krishnamurthy, and Ceze]{ye2025flashinfer}
+Zihao Ye, Lequn Chen, Ruihang Lai, Wuwei Lin, Yineng Zhang, Stephanie Wang, Tianqi Chen, Baris Kasikci, Vinod Grover, Arvind Krishnamurthy, and Luis Ceze.
+\newblock {FlashInfer}: Efficient and customizable attention engine for {LLM} inference serving.
+\newblock \emph{arXiv preprint arXiv:2501.01005}, 2025{\natexlab{b}}.
+
+\bibitem[You et~al.(2025)You, Nie, Zhang, Hu, Zhou, Lu, Wen, and Li]{you2025lladav}
+Zebin You, Shen Nie, Xiaolu Zhang, Jun Hu, Jun Zhou, Zhiwu Lu, Ji-Rong Wen, and Chongxuan Li.
+\newblock {LLaDA-V}: Large language diffusion models for multimodal understanding.
+\newblock \emph{arXiv preprint arXiv:2505.16933}, 2025.
+
+\bibitem[Yuan et~al.(2025)Yuan, Gao, Dai, Luo, Zhao, Zhang, Xie, Wei, Wang, Xiao, Wang, Ruan, Zhang, Liang, and Zeng]{yuan2025nsa}
+Jingyang Yuan, Huazuo Gao, Damai Dai, Junyu Luo, Liang Zhao, Zhengyan Zhang, Zhenda Xie, Y.~X. Wei, Lean Wang, Zhiping Xiao, Yuqing Wang, Chong Ruan, Ming Zhang, Wenfeng Liang, and Wangding Zeng.
+\newblock Native sparse attention: Hardware-aligned and natively trainable sparse attention.
+\newblock \emph{arXiv preprint arXiv:2502.11089}, 2025.
+
+\bibitem[Yuan et~al.(2024)Yuan, Zhang, Lu, Ning, Zhang, Zhao, Yan, Dai, and Wang]{yuan2024ditfastattn}
+Zhihang Yuan, Hanling Zhang, Pu~Lu, Xuefei Ning, Linfeng Zhang, Tianchen Zhao, Shengen Yan, Guohao Dai, and Yu~Wang.
+\newblock {DiTFastAttn}: Attention compression for diffusion transformer models.
+\newblock In \emph{The Thirty-eighth Annual Conference on Neural Information Processing Systems}, 2024.
+
+\bibitem[Zaheer et~al.(2020)Zaheer, Guruganesh, Dubey, Ainslie, Alberti, Ontanon, Pham, Ravula, Wang, Yang, et~al.]{zaheer2020bigbird}
+Manzil Zaheer, Guru Guruganesh, Kumar~Avinava Dubey, Joshua Ainslie, Chris Alberti, Santiago Ontanon, Philip Pham, Anirudh Ravula, Qifan Wang, Li~Yang, et~al.
+\newblock Big bird: Transformers for longer sequences.
+\newblock \emph{Advances in Neural Information Processing Systems}, 33, 2020.
+
+\bibitem[Zhang et~al.(2025)Zhang, Cheng, Huang, Wei, Zhu, and Chen]{zhang2025spargeattn}
+Jintao Zhang, Haofeng Cheng, Pengle Huang, Jia Wei, Jun Zhu, and Jianfei Chen.
+\newblock {SpargeAttn}: Accurate sparse attention accelerating any model inference.
+\newblock \emph{arXiv preprint arXiv:2502.18137}, 2025.
+
+\bibitem[Zhu et~al.(2025{\natexlab{a}})Zhu, Wang, Nie, Zhang, Wu, Hu, Zhou, Chen, Lin, Wen, and Li]{zhu2025llada15}
+Fengqi Zhu, Rongzhen Wang, Shen Nie, Xiaolu Zhang, Chunwei Wu, Jun Hu, Jun Zhou, Jianfei Chen, Yankai Lin, Ji-Rong Wen, and Chongxuan Li.
+\newblock {LLaDA} 1.5: Variance-reduced preference optimization for large language diffusion models.
+\newblock \emph{arXiv preprint arXiv:2505.19223}, 2025{\natexlab{a}}.
+
+\bibitem[Zhu et~al.(2025{\natexlab{b}})Zhu, You, Xing, Huang, Liu, Zhuang, Lu, Wang, Wang, Wei, Guo, Hu, Ye, Chen, Li, Tang, Feng, Hu, Zhou, Zhang, Lan, Zhao, Zheng, Li, Li, and Wen]{llada-moe2025}
+Fengqi Zhu, Zebin You, Yipeng Xing, Zenan Huang, Lin Liu, Yihong Zhuang, Guoshan Lu, Kangyu Wang, Xudong Wang, Lanning Wei, Hongrui Guo, Jiaqi Hu, Wentao Ye, Tieyuan Chen, Chenchen Li, Chengfu Tang, Haibo Feng, Jun Hu, Jun Zhou, Xiaolu Zhang, Zhenzhong Lan, Junbo Zhao, Da~Zheng, Chongxuan Li, Jianguo Li, and Ji-Rong Wen.
+\newblock {LLaDA-MoE}: A sparse {MoE} diffusion language model.
+\newblock \emph{arXiv preprint arXiv:2509.24389}, 2025{\natexlab{b}}.
+
+\bibitem[Zhu et~al.(2025{\natexlab{c}})Zhu, Tang, Xu, Gu, Zeng, Kadekodi, Zhao, Li, Krishnamurthy, and Kasikci]{zhu2025tactic}
+Kan Zhu, Tian Tang, Qinyu Xu, Yile Gu, Zhichen Zeng, Rohan Kadekodi, Liangyu Zhao, Ang Li, Arvind Krishnamurthy, and Baris Kasikci.
+\newblock Tactic: Adaptive sparse attention with clustering and distribution fitting for long-context llms.
+\newblock \emph{arXiv preprint arXiv:2502.12216}, 2025{\natexlab{c}}.
+
+\end{thebibliography}

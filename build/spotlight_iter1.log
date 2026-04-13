@@ -1,0 +1,18 @@
+# Spotlight iteration 1 — compile log (agent environment)
+Date: 2026-04-13
+
+## Change (logical unit 1)
+- File: 01-intro.tex
+- Scope: Rewrote opening two paragraphs for clearer deployment motivation (bidirectional cost profile, O(L^2) time/memory, why step reduction is insufficient).
+
+## Full PDF build
+- pdflatex: NOT FOUND on PATH (checked PATH including /Library/TeX/texbin and common TeX Live roots).
+- bibtex: not run (depends on pdflatex).
+
+## Human / CI follow-up
+Run from repo root (see README.md):
+  pdflatex -interaction=nonstopmode neurips_2026.tex
+  bibtex neurips_2026
+  pdflatex -interaction=nonstopmode neurips_2026.tex
+  pdflatex -interaction=nonstopmode neurips_2026.tex
+Then skim neurips_2026.log for undefined references / overfull hboxes.

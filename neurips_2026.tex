@@ -148,7 +148,7 @@ The standard full-attention inference without any sparsification, serving as the
 Originally designed for autoregressive models, StreamingLLM retains a fixed set of initial ``sink'' tokens and a sliding window of recent tokens. We adapt it to the bidirectional dLLM setting by applying the same attention mask at every denoising step. We set the sink token proportion $s_0 = 10\%$ of $L_{\text{total}}$ and derive the sliding window size as $W = (\rho - s_0) \cdot L_{\text{total}}$, where $\rho$ is the target sparsity budget.
 
 \paragraph{SparseD~\citep{wang2025sparsed}.}
-A training-free sparse attention method for dLLMs that computes a block-sparse mask once during the initial denoising steps and reuses it for all subsequent steps. We use the same block size $S = 16$, block length $L = 32$, and sparsity budgets as Step-dLLM. SparseD uses full (dense) attention for the first $\text{skip}\% = 5\%$ of denoising steps before switching to sparse attention.
+A training-free sparse attention method for dLLMs that computes a block-sparse mask once during the initial denoising steps and reuses it for all subsequent steps. We use the same block size $b = 16$, block length $L = 32$, and sparsity budgets as Step-dLLM. SparseD uses full (dense) attention for the first $\text{skip}\% = 5\%$ of denoising steps before switching to sparse attention.
 
 \paragraph{Fast-dLLM~\citep{wu2025fastdllm}.}
 A block-wise autoregressive acceleration method for dLLMs. We set the block length $L = 32$ (matching our configuration) and the confidence threshold to $0.9$.
@@ -165,7 +165,7 @@ Table~\ref{tab:hyperparams} summarizes the hyperparameter settings used for Step
 
 \begin{table}[h]
 \centering
-\caption{Hyperparameter settings for Step-dLLM.}
+\caption{Hyperparameter settings for Step-dLLM. Refresh frequency $f$ follows Table~\ref{tab:ablation-freq}: we run an anchor (mask refresh) every $f \times N_{\text{steps}}$ denoising steps (rounded to an integer schedule), matching the re-anchor interval $\Delta$ in Section~\ref{sec:mask_reuse} and Algorithm~\ref{alg:step_aware_sparse}.}
 \label{tab:hyperparams}
 \small
 \begin{tabular}{lcc}
@@ -173,7 +173,7 @@ Table~\ref{tab:hyperparams} summarizes the hyperparameter settings used for Step
 Hyperparameter & Short-context tasks & Long-context tasks \\
  & (GSM8K, MATH, HumanEval) & (NIAH, RULER) \\
 \midrule
-Block size ($S$) & 16 & 16 \\
+Block size ($b$) & 16 & 16 \\
 Block length ($L$) & 32 & 32 \\
 Sparsity budget ($\rho$) & 50\%/80\%/90\%/95\% & 20\%/50\%/80\%/90\%/95\% \\
 Refresh frequency ($f$) & 0.2 & 0.2 \\

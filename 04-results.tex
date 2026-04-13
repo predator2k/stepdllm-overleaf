@@ -6,7 +6,7 @@
 \textbf{Baselines.} We compare against dense attention (upper bound), StreamingLLM (adapted to bidirectional attention), SparseD, and Fast-dLLM.
 
 \textbf{Implementation Details.}
-All experiments use a single NVIDIA H100 GPU with batch size 1. For Step-dLLM and SparseD, we set block size $S = 16$, block length $L = 32$, and refresh frequency $f = 0.2$. Sparsity budgets range from 50\% to 95\% for short-context tasks and 20\% to 95\% for long-context tasks. For SparseD, we use \(\text{skip}\% = 5\%\) of initial dense steps. Fast-dLLM uses block length $L = 32$ and confidence threshold $0.9$. StreamingLLM uses $s_0 = 10\%$ sink tokens and window size $W = (\rho - s_0) \cdot L_{\text{total}}$. We set $L_{\text{total}} = N_{\text{steps}}$ for all methods. Full details are in the Appendix.
+All experiments use a single NVIDIA H100 GPU with batch size 1. For Step-dLLM and SparseD, we set block size $b = 16$, block length $L = 32$, and refresh frequency $f = 0.2$. Sparsity budgets range from 50\% to 95\% for short-context tasks and 20\% to 95\% for long-context tasks. For SparseD, we use \(\text{skip}\% = 5\%\) of initial dense steps. Fast-dLLM uses block length $L = 32$ and confidence threshold $0.9$. StreamingLLM uses $s_0 = 10\%$ sink tokens and window size $W = (\rho - s_0) \cdot L_{\text{total}}$. We set $L_{\text{total}} = N_{\text{steps}}$ for all methods. Full details are in the Appendix.
 
 \subsection{Main Results}
 

@@ -3,23 +3,23 @@
 In this section, we analyze the attention map behaviors during the generation time and illustrate how the observations motivate the adaptive attention sparse updates.
 
 \subsection{Cross-step attention similarity}
-Existing sparsity methods in DLM, such as SparseD \cite{wang2025sparsed}, are built on the observation that attention patterns exhibit noticeable temporal consistency across inference steps. Based on this observation, they estimate the sparse attention pattern once and reuse it in subsequent denoising steps, thereby avoiding repeated pattern construction overhead. While this assumption is partially valid, we find that it is insufficient to fully characterize attention dynamics in DLLMs. For a query position $i$ at denoising step $s$, we define its attention pattern as $\mathbf{a}_i^{(s)}=\mathrm{Softmax}\left(\frac{\mathbf{q}_i^{(s)}\mathbf{K}^{(s)\top}}{\sqrt{d}}\right)$, which represents the attention distribution of the query token over all key positions at step $s$.
+Existing sparsity methods for dLLMs, such as SparseD~\citep{wang2025sparsed}, are built on the observation that attention patterns exhibit noticeable temporal consistency across inference steps. Based on this observation, they estimate the sparse attention pattern once and reuse it in subsequent denoising steps, thereby avoiding repeated pattern construction overhead. While this assumption is partially valid, we find that it is insufficient to fully characterize attention dynamics in dLLMs. For a query position $i$ at denoising step $s$, we define its attention pattern as $\mathbf{a}_i^{(s)}=\mathrm{Softmax}\left(\frac{\mathbf{q}_i^{(s)}\mathbf{K}^{(s)\top}}{\sqrt{d}}\right)$, which represents the attention distribution of the query token over all key positions at step $s$.
 
-Unlike autoregressive decoding, dLLM inference proceeds through an iterative denoising process, in which the visible context and token certainty evolve continuously across steps. As more tokens become unmasked, the dependency structure of the sequence is gradually refined, and the attention pattern may be reorganized accordingly. In particular, some key positions that are not salient at early steps can become pivotal at later steps.  As illustrated in Figure~\ref{fig:attention_pattern_across_steps}, which compares two groups of nearby denoising steps, the attention patterns are highly consistent within Steps 29--31 and within Steps 39--41, suggesting local reusability across nearby steps. However, comparing these two groups reveals a clear pattern shift: a new pivotal token at key position 95 emerges in Steps 39--41 but is not prominent in Steps 29--31. This indicates that, although the sparse attention pattern can be reused locally, it is not fully stationary throughout denoising.
+Unlike autoregressive decoding, dLLM inference proceeds through an iterative denoising process, in which the visible context and token certainty evolve continuously across steps. As more tokens become unmasked, the dependency structure of the sequence is gradually refined, and the attention pattern may be reorganized accordingly. In particular, some key positions that are not salient at early steps can become pivotal at later steps. At the dataset level, Figure~\ref{fig:cross_step} in the Introduction summarizes abrupt KL spikes between consecutive denoising steps; Figure~\ref{fig:attention_pattern_across_steps} zooms into representative windows (two groups of three consecutive steps: 29--31 vs.\ 39--41). Patterns are highly consistent within each group, supporting local mask reuse, yet comparing groups reveals a salience shift---key index~95 becomes pivotal in Steps 39--41 but not in 29--31---so attention structure is not globally stationary across denoising.
 
 As further shown in Figure~\ref{fig:cross_step_curve}, the change between two consecutive attention patterns is measured by the KL divergence $D_{\mathrm{KL}}\!\left(\mathbf{a}_i^{(s)} \,\|\, \mathbf{a}_i^{(s-1)}\right)=\sum_{j=1}^{L}\mathbf{a}_{i,j}^{(s)}\log\frac{\mathbf{a}_{i,j}^{(s)}}{\mathbf{a}_{i,j}^{(s-1)}}$. Although many neighboring steps remain relatively similar, there exist several transition steps where the divergence increases sharply, suggesting abrupt changes in the underlying attention structure. This implies that directly reusing a sparse pattern estimated at early steps may lead to stale sparsity decisions: newly important attention links can be missed, while computation is still spent on entries that are no longer critical. These observations motivate us to refresh the sparse attention matrix at some selected anchor steps.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=1.0\linewidth]{figures/panels_6step_2x3.pdf}
-    \caption{Attention patterns across different denoising steps.}
+    \caption{\textbf{Attention patterns across denoising steps} (two row groups $\times$ three consecutive steps each). \emph{Top row:} Steps 29--31; \emph{bottom row:} Steps 39--41; columns advance time within a group. Within each row, maps for the same query position stay similar, supporting local mask reuse. Across rows, salience reorganizes---notably, key index~95 becomes pivotal in Steps 39--41 but not in 29--31---so a single early-estimated mask goes stale. Compare Figure~\ref{fig:cross_step} for aggregate KL spikes.}
     \label{fig:attention_pattern_across_steps}
 \end{figure}
 
 
 \subsection{Head-wise Heterogeneity in Sparse Attention}
 
-Recent sparse DLM methods reduce inference cost by exploiting sparsity during the denoising process. In particular, SparseD~\cite{wang2025sparsed} performs sparse attention computation by selecting important token interactions according to token-level attention saliency, while other concurrent methods improve efficiency through token-level cache eviction. These designs have shown promising efficiency gains in DLM inference. However, they implicitly treat the token as the primary unit of sparsification, assuming that the importance of a token is largely consistent across attention heads. We find that this assumption is overly coarse for DLMs.
+Recent sparse dLLM methods reduce inference cost by exploiting sparsity during the denoising process. In particular, SparseD~\citep{wang2025sparsed} performs sparse attention computation by selecting important token interactions according to token-level attention saliency, while other concurrent methods improve efficiency through token-level cache eviction. These designs have shown promising efficiency gains in dLLM inference. However, they implicitly treat the token as the primary unit of sparsification, assuming that the importance of a token is largely consistent across attention heads. We find that this assumption is overly coarse for dLLMs.
 
 As shown in Figure~\ref{fig:attention_heterogeneity}(a), even for the same query token, different attention heads exhibit substantially different patterns: some focus sharply on a small set of key positions while others attend broadly or emphasize entirely different regions. Applying a uniform sparse mask across all heads therefore risks preserving unnecessary computation in concentrated heads while discarding critical attention scores in dispersed ones.
 
@@ -55,7 +55,7 @@ We present \textbf{Step-dLLM}, an efficient inference framework for diffusion la
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.95\linewidth]{figures/StepdLLM.png}
+    \includegraphics[width=0.95\linewidth]{figures/step_dllm_overview.pdf}
     \caption{Overview of \textbf{Step-dLLM}. Anchor steps compute full attention and extract a block-sparse mask via a fused kernel. Non-anchor steps reuse the cached mask with fresh $\mathbf{Q}, \mathbf{K}, \mathbf{V}$, reducing per-step cost from $\mathcal{O}(L^2)$ to $\mathcal{O}(L \cdot k \cdot b)$. The mask is periodically refreshed every $\Delta$ steps.}
     \label{fig:step_dllm_overview}
 \end{figure}
@@ -66,7 +66,7 @@ We present \textbf{Step-dLLM}, an efficient inference framework for diffusion la
 
 The per-step $\mathcal{O}(L^2)$ cost of full bidirectional attention is the dominant bottleneck in dLLM inference. Our key observation (Section~\ref{sec:analysis}) is that, although the attention maps evolve across diffusion steps, adjacent steps share highly similar block-level sparsity structures (Figure~\ref{fig:cross_step}). This motivates a simple strategy: \emph{compute the sparse mask once, then reuse it for several subsequent steps}, amortizing the cost of mask identification over a group of steps.
 
-Formally, let $b$ denote the block size and $N_b = \lceil L/b \rceil$ the number of blocks. We partition the $S$ diffusion steps into consecutive groups of size $\Delta$. Within each group, the first step serves as the \emph{anchor} and the remaining $\Delta{-}1$ steps reuse the anchor's mask.
+Formally, let $b$ denote the block size and $N_b = \lceil L/b \rceil$ the number of blocks. We partition the $T$ diffusion steps into consecutive groups of size $\Delta$. Within each group, the first step serves as the \emph{anchor} and the remaining $\Delta{-}1$ steps reuse the anchor's mask.
 
 \paragraph{Anchor steps} compute full attention and simultaneously extract a block-level sparsity mask $\mathcal{I}$ (construction detailed in Section~\ref{sec:mask_construction}), both produced by a single fused kernel launch with no redundant recomputation:
 \begin{equation}
@@ -84,10 +84,10 @@ The mask is refreshed every $\Delta$ steps, bounding the staleness of $\mathcal{
 \caption{Step-dLLM Inference}
 \label{alg:step_aware_sparse}
 \begin{algorithmic}[1]
-\Require Diffusion steps $S$, block size $b$, global budget $K_{\text{total}}$, per-head minimum $k_{\min}$, re-anchor interval $\Delta$, number of heads $H$
-\Ensure Output $\mathbf{O}^{(s)}$ for each step $s = 1, \ldots, S$
+\Require Diffusion steps $T$, block size $b$, global budget $K_{\text{total}}$, per-head minimum $k_{\min}$, re-anchor interval $\Delta$, number of heads $H$
+\Ensure Output $\mathbf{O}^{(s)}$ for each step $s = 1, \ldots, T$
 \State $\mathcal{I} \gets \varnothing$ \Comment{Cached block-sparse mask across all heads}
-\For{$s = 1$ \textbf{to} $S$}
+\For{$s = 1$ \textbf{to} $T$}
     \State Compute $\mathbf{Q}^{(s)}, \mathbf{K}^{(s)}, \mathbf{V}^{(s)} \in \mathbb{R}^{H \times L \times d}$ from current hidden states
     \If{$\mathcal{I} = \varnothing$ \textbf{or} $s \equiv 1 \pmod{\Delta}$} \Comment{Anchor step}
         \State $\mathbf{M},\; \mathbf{O}^{(s)} \gets \texttt{Modified-Flash-Attn}\!\left(\mathbf{Q}^{(s)}, \mathbf{K}^{(s)}, \mathbf{V}^{(s)},\; b\right)$

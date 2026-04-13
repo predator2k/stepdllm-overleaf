@@ -15,18 +15,18 @@ Beyond cross-step dynamics, we identify a second limitation of prior methods: th
     \begin{subfigure}[b]{0.49\columnwidth}
         \centering
         \includegraphics[width=\linewidth]{figures/attention_multi_position.pdf}
-        \caption{Cross-step attention similarity for representative query positions.}
+        \caption{Cross-step attention similarity (illustrative maps; qualitative reconstruction).}
         \label{fig:cross_step_heatmap}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.49\columnwidth}
         \centering
         \includegraphics[width=\linewidth]{figures/attention_similarity_curve.pdf}
-        \caption{KL divergence between consecutive denoising steps.}
+        \caption{KL divergence between consecutive steps (illustrative hand-traced template).}
         \label{fig:cross_step_curve}
     \end{subfigure}
 
-    \caption{Attention patterns in DLMs are locally consistent but not globally stationary across denoising steps. (a) Cross-step similarity heatmaps show high similarity within nearby steps but clear discrepancies between distant ones. (b) KL divergence between consecutive steps reveals sharp spikes at transition points, indicating abrupt pattern shifts.}
+    \caption{Attention patterns in DLMs are locally consistent but not globally stationary across denoising steps. (a) Cross-step similarity heatmaps show high similarity within nearby steps but clear discrepancies between distant ones. (b) KL divergence between consecutive steps reveals sharp spikes at transition points, indicating abrupt pattern shifts. Both panels are \emph{illustrative} visualizations generated from the documented scripts \texttt{plot\_cross\_step\_heatmap.py} and \texttt{plot\_kl\_divergence.py} (not undisclosed logged metrics from a held-out run).}
     \label{fig:cross_step}
 \end{figure}
 

@@ -1,52 +1,10 @@
 # Step-dLLM (NeurIPS draft)
 
-LaTeX source for the Step-dLLM paper. Figures under `figures/` are regenerated from `scripts/` where noted; data in the plotters are **synthetic or estimated** from prior visuals unless you replace the generators with real runs.
+LaTeX for the Step-dLLM paper. Figure PDFs under `figures/` are generated from `scripts/`; plot data are **synthetic or estimated** unless you replace the generators with real runs.
 
-## Build the PDF
+## Minimal workflow (repo root)
 
-From the repository root (TinyTeX or another TeX distribution on `PATH`):
-
-```sh
-pdflatex -interaction=nonstopmode neurips_2026.tex
-bibtex neurips_2026
-pdflatex -interaction=nonstopmode neurips_2026.tex
-pdflatex -interaction=nonstopmode neurips_2026.tex
-```
-
-`bibtex` may exit with warnings (e.g. duplicate keys in `example_paper.bib`); fix entries if you need a clean bibliography pass.
-
-## Regenerate figures (source of truth)
-
-**Canonical wiring for tools and agents:** `figures/manifest.json` (script → PDF → TeX). Regenerate everything with:
-
-```sh
-python3 scripts/regenerate_figures.py
-```
-
-Use `python3 scripts/regenerate_figures.py --help` for `--dry-run`, `--list`, and `--only <id>`.
-
-The table below mirrors the manifest for quick human reading; if they disagree, fix the manifest first.
-
-| Where used | Output file | Script |
-|------------|-------------|--------|
-| `01-intro.tex` (Fig. cross-step) | `figures/attention_multi_position.pdf` | `scripts/plot_cross_step_heatmap.py` |
-| `01-intro.tex` (Fig. cross-step) | `figures/attention_similarity_curve.pdf` | `scripts/plot_kl_divergence.py` |
-| `03-method.tex` (attention across steps) | `figures/panels_6step_2x3.pdf` | `scripts/plot_panels_6step.py` |
-| `03-method.tex` (head heterogeneity **(a)**) | `figures/attention_heads_heatmap.pdf` | `scripts/plot_attention_heads_heatmap.py` |
-| `03-method.tex` (head heterogeneity **(b)**) | `figures/attention_budget_cross_head.pdf` | `scripts/plot_attention_budget_curve.py` |
-| `03-method.tex` (overview) | `figures/step_dllm_overview.pdf` | `scripts/plot_step_dllm_overview.py` (run before `pdflatex` if the PDF is not in `figures/`; commit the PDF for CI or add a build step that runs the script). |
-| `04-results.tex` | `figures/kernel_speedup.pdf` | `scripts/plot_kernel_speedup.py` |
-
-Run any script from the repo root or from `scripts/` (each resolves paths relative to the repo):
-
-```sh
-python3 scripts/plot_panels_6step.py
-python3 scripts/plot_attention_budget_curve.py
-```
-
-### Tests
-
-Plotters ship lightweight `unittest` smoke checks under `scripts/`:
+**1 — Verify plotters (fast, no PDF writes required for most tests)**
 
 ```sh
 python3 scripts/plot_attention_budget_curve_test.py
@@ -54,12 +12,61 @@ python3 scripts/plot_panels_6step_test.py
 python3 scripts/figure_neurips_style_test.py
 ```
 
-Run all three before committing figure or style changes; they finish in under a second on typical laptops.
+**2 — Regenerate committed vector figures**
+
+Wiring is authoritative in `figures/manifest.json` (script → PDF → TeX consumers). The thin driver is:
+
+```sh
+python3 scripts/regenerate_figures.py
+```
+
+Use `python3 scripts/regenerate_figures.py --help` for `--dry-run`, `--list`, and `--only <id>`. Single-figure example: `python3 scripts/regenerate_figures.py --only panels_6step_2x3`.
+
+**3 — Build the PDF** (requires a TeX distribution on `PATH`; many CI smoke hosts do **not** ship `pdflatex` — exit 127 means “install TeX or run this step locally”)
+
+```sh
+pdflatex -interaction=nonstopmode -halt-on-error neurips_2026.tex
+bibtex neurips_2026
+pdflatex -interaction=nonstopmode -halt-on-error neurips_2026.tex
+pdflatex -interaction=nonstopmode -halt-on-error neurips_2026.tex
+```
+
+Resolve `bibtex` warnings (e.g. duplicate keys in `example_paper.bib`) if you need a clean bibliography pass.
+
+## Figures: manifest and human-readable mirror
+
+| Where used | Output file | Script |
+|------------|-------------|--------|
+| `01-intro.tex` (cross-step) | `figures/attention_multi_position.pdf` | `scripts/plot_cross_step_heatmap.py` |
+| `01-intro.tex` (cross-step) | `figures/attention_similarity_curve.pdf` | `scripts/plot_kl_divergence.py` |
+| `03-method.tex` (attention across steps) | `figures/panels_6step_2x3.pdf` | `scripts/plot_panels_6step.py` |
+| `03-method.tex` (head heterogeneity **(a)**) | `figures/attention_heads_heatmap.pdf` | `scripts/plot_attention_heads_heatmap.py` |
+| `03-method.tex` (head heterogeneity **(b)**) | `figures/attention_budget_cross_head.pdf` | `scripts/plot_attention_budget_curve.py` |
+| `03-method.tex` (overview) | `figures/step_dllm_overview.pdf` | `scripts/plot_step_dllm_overview.py` |
+| `04-results.tex` | `figures/kernel_speedup.pdf` | `scripts/plot_kernel_speedup.py` |
+
+If this table disagrees with `figures/manifest.json`, **fix the manifest first** and refresh this table.
+
+**Shared PDF style:** `scripts/figure_neurips_style.py` (`apply_neurips_style`); covered by `figure_neurips_style_test.py`.
+
+**Emergency fallback** (no `regenerate_figures.py` — not preferred): from repo root,
+
+```sh
+for f in scripts/plot_*.py; do [[ "$f" == *_test.py ]] && continue; python3 "$f"; done
+```
+
+## Plotter CLIs (gotcha)
+
+Orchestration flags live on **`regenerate_figures.py`**. Individual `scripts/plot_*.py` files may not use `argparse`; passing `--help` to a plotter can still execute `main()` and regenerate PDFs. Prefer `regenerate_figures.py --help` and `--only`.
+
+## Tables
+
+Numeric fragments live in `tables/*.tex` and are pulled in via `\input{...}` from `04-results.tex` and from the appendix block in `neurips_2026.tex`. When editing, keep `\multirow` usage consistent with existing tables.
 
 ## Naming note for agents
 
-Script **filenames** do not always mirror PDF **filenames** (e.g. `plot_cross_step_heatmap.py` → `attention_multi_position.pdf`). Use the table above or `grep includegraphics` in the `.tex` files instead of guessing from names alone.
+Script **filenames** do not always mirror PDF **filenames**. Use `figures/manifest.json`, `python3 scripts/regenerate_figures.py --list`, or `grep includegraphics *.tex` — do not guess from names alone.
 
-## Optional hardening (team proposal)
+## Crew reference
 
-A small `scripts/figure_style.py` plus a manifest (expected `includegraphics` paths ↔ generator) reduces broken references when several agents touch figures. Add when a second script needs shared `rcParams`; avoid a large framework before two plotters share code.
+Interim navigation SSOT with TeX line anchors: session artifact `architect-e2e3176b/CODEBASE_ARCHITECTURE_MAP.md` (figure ↔ script ↔ TeX, table index, compile loop). When the manifest and that map disagree, trust **`figures/manifest.json`** for automation and update the map in the same change set if you can.

@@ -25,8 +25,10 @@ pdflatex -interaction=nonstopmode neurips_2026.tex
 ## Figures
 
 - Prefer **PDF** under `figures/` as the single source of truth committed to the repo.
-- Regenerate from `scripts/` as documented in `README.md` (table maps `\\includegraphics` → script → output PDF).
+- Regenerate from `scripts/` as documented in `README.md` (table maps `\includegraphics` → script → output PDF).
 - Script names do not always match PDF filenames; use the README table or `grep includegraphics` instead of guessing.
+- **`figures/manifest.json`** lists each figure’s `id`, `generator` (Python path), `output` (PDF), and `cited_in` (`.tex` fragments). When adding or renaming a figure, update the manifest first; keep `README.md` in sync or regenerate its table from the manifest.
+- **Batch regen:** `python3 scripts/regenerate_figures.py` (supports `--dry-run`, `--list`, `--only <id>`) for CI and spot fixes.
 
 ## Coordination
 

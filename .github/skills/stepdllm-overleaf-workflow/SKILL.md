@@ -19,6 +19,8 @@ sh scripts/build_pdf.sh
 
   This prefers `latexmk -pdf` (see `./latexmkrc`), else `pdflatex`+`bibtex` loop, else `tectonic` (useful when `pdflatex` is missing). `sh scripts/build_pdf.sh --print-engine` reports which backend would run.
 
+- **Spotlight / manuscript cadence (user priority):** one logical `.tex`/bib change per commit, then **`sh scripts/build_pdf.sh`** when any TeX backend is on `PATH` — that is signal **(B)** for handoffs. Do not treat green GitHub Smoke as a substitute for **(B)**.
+
 - Doc-only tweaks (e.g. comments with no rebuild impact) still benefit from a build when TeX is present; skip only when the environment has no TeX.
 
 ## CI vs PDF gate (GitHub Smoke)

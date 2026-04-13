@@ -21,6 +21,8 @@ GitHub Actions runs the same three commands plus `python3 scripts/regenerate_fig
 - **(A) Python / GitHub Smoke** — the three plotter commands above plus `python3 scripts/regenerate_figures.py --dry-run` (see `.github/workflows/smoke.yml`): **manifest wiring and generator checks only**; green Smoke **does not** mean the NeurIPS PDF compiled.
 - **(B) Full LaTeX PDF** — step 3 / `sh scripts/build_pdf.sh` (or the manual `pdflatex`/`bibtex` sequence): **a separate gate** until CI installs TeX; treat missing **B** as “not run,” not “passed.”
 
+**NeurIPS manuscript / spotlight cadence:** Keep **one logical manuscript change per commit**. After each such commit (and before you treat the slice as done), run **`sh scripts/build_pdf.sh`** whenever **any** backend from step 3 is on `PATH` — that satisfies signal **(B)** (engine may be `tectonic` without `pdflatex`). In handoffs, report **`sh scripts/build_pdf.sh --print-engine`** plus success/failure, or **B: N/A** only when `--print-engine` errors with `none`.
+
 Broader definition-of-done (merge vs camera-ready, anonymization, etc.): session PM artifact `product-manager-23d0beab/quality-bar-and-user-requirements.md` (v10) — not duplicated here.
 
 **2 — Regenerate committed vector figures**

@@ -12,7 +12,7 @@ As further shown in Figure~\ref{fig:cross_step_curve}, the change between two co
 \begin{figure}[h]
     \centering
     \includegraphics[width=1.0\linewidth]{figures/panels_6step_2x3.pdf}
-    \caption{\textbf{Attention patterns across denoising steps} (two row groups $\times$ three consecutive steps each). \emph{Top row:} Steps 29--31; \emph{bottom row:} Steps 39--41; columns advance time within a group. Within each row, maps for the same query position stay similar, supporting local mask reuse. Across rows, salience reorganizes---notably, key index~95 becomes pivotal in Steps 39--41 but not in 29--31---so a single early-estimated mask goes stale. Compare Figure~\ref{fig:cross_step} for aggregate KL spikes.}
+    \caption{\textbf{Attention patterns across denoising steps} (two row groups $\times$ three consecutive steps each). \emph{Top row:} Steps 29--31; \emph{bottom row:} Steps 39--41; columns advance time within a group. Within each row, maps for the same query position stay similar, supporting local mask reuse. Across rows, salience reorganizes---notably, key index~95 becomes pivotal in Steps 39--41 but not in 29--31---so a single early-estimated mask goes stale. Compare Figure~\ref{fig:cross_step} for aggregate KL spikes. \emph{Illustrative} visualization from \texttt{plot\_panels\_6step.py} (documented qualitative generator; not undisclosed raw attention dumps).}
     \label{fig:attention_pattern_across_steps}
 \end{figure}
 

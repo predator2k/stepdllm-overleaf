@@ -61,7 +61,7 @@ def main() -> None:
         "grid.alpha": 0.4,
     })
 
-    fig, ax = plt.subplots(figsize=(5.5, 3.5))
+    fig, ax = plt.subplots(figsize=(5.5, 2.8))
 
     for label, speedups in SPEEDUP_BY_SEQLEN.items():
         ax.plot(

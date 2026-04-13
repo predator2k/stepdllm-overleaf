@@ -5,15 +5,24 @@ Plots KL divergence between consecutive denoising steps, showing sharp spikes
 at transition points where the attention structure reorganises.  A vertical
 dashed line marks the unmask step.
 
-Data are approximated from the empirical figures in the paper.
+**Data source:** hand-traced illustrative curve (``KL_DIVERGENCE`` table in this
+file), not undisclosed benchmark logs; labeled on the figure.
 """
 
 import pathlib
+import sys
 
 import matplotlib
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+
+_SCRIPTS_DIR = pathlib.Path(__file__).resolve().parent
+if str(_SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS_DIR))
+
+from figure_neurips_style import HALF_COLUMN_IN, apply_neurips_style
 
 # ── Data (estimated from the original figure) ──────────────────────────────
 # x = diffusion step; y = KL(step_t || step_{t-1})
@@ -65,23 +74,10 @@ def main() -> None:
     repo_root = pathlib.Path(__file__).resolve().parent.parent
     output_path = repo_root / "figures" / "attention_similarity_curve.pdf"
 
-    # Style consistent with plot_kernel_speedup.py
-    plt.rcParams.update({
-        "font.family": "serif",
-        "font.size": 8,
-        "axes.labelsize": 9,
-        "axes.titlesize": 10,
-        "legend.fontsize": 8,
-        "xtick.labelsize": 8,
-        "ytick.labelsize": 8,
-        "lines.linewidth": 1.5,
-        "lines.markersize": 3,
-        "axes.linewidth": 0.6,
-        "grid.linewidth": 0.4,
-        "grid.alpha": 0.35,
-    })
-
-    fig, ax = plt.subplots(figsize=(2.7, 2.2))
+    apply_neurips_style()
+    fig_w = HALF_COLUMN_IN
+    fig_h = fig_w * 0.78
+    fig, ax = plt.subplots(figsize=(fig_w, fig_h))
 
     # Main KL divergence curve
     ax.plot(
@@ -89,9 +85,9 @@ def main() -> None:
         KL_DIVERGENCE,
         color=COLOR_MAIN,
         marker="o",
-        markersize=2.5,
-        linewidth=1.4,
-        label="sample 2521",
+        markersize=2.8,
+        linewidth=1.0,
+        label="illustrative trace",
         zorder=3,
     )
 
@@ -100,8 +96,8 @@ def main() -> None:
         x=UNMASK_STEP,
         color=COLOR_UNMASK,
         linestyle="--",
-        linewidth=1.2,
-        label="unmask step",
+        linewidth=0.9,
+        label="marked step",
         zorder=2,
     )
 
@@ -115,13 +111,22 @@ def main() -> None:
 
     ax.legend(
         loc="upper left",
-        framealpha=0.9,
-        edgecolor="lightgray",
-        handlelength=1.5,
+        framealpha=0.92,
+        edgecolor="0.75",
+        handlelength=1.4,
     )
 
-    fig.tight_layout()
-    fig.savefig(output_path, bbox_inches="tight", dpi=300)
+    fig.subplots_adjust(bottom=0.2)
+    fig.text(
+        0.5,
+        0.02,
+        "Illustrative curve (hand-traced template; not raw logged metrics).",
+        ha="center",
+        fontsize=5.5,
+        style="italic",
+    )
+
+    fig.savefig(output_path, format="pdf", bbox_inches="tight", dpi=300)
     plt.close(fig)
     print(f"Saved: {output_path}")
 

@@ -5,16 +5,24 @@ Plots a 2x2 grid of heatmaps showing attention pattern similarity between
 denoising steps at four representative query positions.  Demonstrates that
 attention in diffusion LLMs is locally consistent but globally non-stationary.
 
-Data are approximated from the empirical figures in the paper.
+**Data source:** qualitative illustrative reconstruction (not undisclosed
+benchmark metrics); documented in script comments and labeled on the figure.
 """
 
 import pathlib
+import sys
 
 import numpy as np
 import matplotlib
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from mpl_toolkits.axes_grid1 import make_axes_locatable
+
+_SCRIPTS_DIR = pathlib.Path(__file__).resolve().parent
+if str(_SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS_DIR))
+
+from figure_neurips_style import HALF_COLUMN_IN, apply_neurips_style
 
 # ── Constants ───────────────────────────────────────────────────────────────
 NUM_STEPS = 64
@@ -134,21 +142,15 @@ def main() -> None:
     repo_root = pathlib.Path(__file__).resolve().parent.parent
     output_path = repo_root / "figures" / "attention_multi_position.pdf"
 
-    # Style consistent with plot_kernel_speedup.py
-    plt.rcParams.update({
-        "font.family": "serif",
-        "font.size": 8,
-        "axes.labelsize": 8,
-        "axes.titlesize": 9,
-        "xtick.labelsize": 7,
-        "ytick.labelsize": 7,
-        "axes.linewidth": 0.6,
-    })
-
+    apply_neurips_style()
+    # Sized for ``0.49\\columnwidth`` include in intro Figure~1 (NeurIPS single column).
+    fig_w = HALF_COLUMN_IN
+    fig_h = fig_w * 1.08
     fig, axes = plt.subplots(
-        2, 2,
-        figsize=(2.7, 2.7),
-        gridspec_kw={"wspace": 0.35, "hspace": 0.45},
+        2,
+        2,
+        figsize=(fig_w, fig_h),
+        gridspec_kw={"wspace": 0.38, "hspace": 0.52},
     )
 
     ims = []
@@ -163,8 +165,9 @@ def main() -> None:
             interpolation="nearest",
             origin="upper",
         )
+        im.set_rasterized(True)
         ims.append(im)
-        ax.set_title(f"Query Pos {qpos}", pad=3)
+        ax.set_title(f"Query pos. {qpos}", pad=2)
         ax.set_xticks(TICK_POSITIONS)
         ax.set_xticklabels(TICK_LABELS)
         ax.set_yticks(TICK_POSITIONS)
@@ -184,9 +187,19 @@ def main() -> None:
         pad=0.04,
         shrink=0.85,
     )
-    cbar.ax.tick_params(labelsize=7)
+    cbar.ax.tick_params(labelsize=6.5)
 
-    fig.savefig(output_path, bbox_inches="tight", dpi=300)
+    fig.subplots_adjust(bottom=0.18, top=0.92)
+    fig.text(
+        0.5,
+        0.03,
+        "Illustrative reconstruction (qualitative; not raw logged metrics).",
+        ha="center",
+        fontsize=5.5,
+        style="italic",
+    )
+
+    fig.savefig(output_path, format="pdf", bbox_inches="tight", dpi=300)
     plt.close(fig)
     print(f"Saved: {output_path}")
 

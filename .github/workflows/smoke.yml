@@ -28,3 +28,6 @@ jobs:
           python3 scripts/plot_attention_budget_curve_test.py
           python3 scripts/plot_panels_6step_test.py
           python3 scripts/figure_neurips_style_test.py
+
+      - name: PDF build script sanity (no TeX)
+        run: python3 scripts/build_pdf_test.py

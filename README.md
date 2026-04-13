@@ -26,7 +26,26 @@ python3 scripts/regenerate_figures.py
 
 Use `python3 scripts/regenerate_figures.py --help` for `--dry-run`, `--list`, and `--only <id>`. Single-figure example: `python3 scripts/regenerate_figures.py --only panels_6step_2x3`.
 
-**3 — Build the PDF** (requires a TeX distribution on `PATH`; many CI smoke hosts do **not** ship `pdflatex` — exit 127 means “install TeX or run this step locally”)
+**3 — Build the PDF** (full TeX gate; **not** part of GitHub Smoke — see `.github/workflows/smoke.yml`)
+
+Preferred: one entry point from repo root (picks the first backend that exists on `PATH`):
+
+```sh
+sh scripts/build_pdf.sh
+# or: make pdf
+```
+
+Order of precedence:
+
+1. **`latexmk -pdf`** if `latexmk` is installed — uses `./latexmkrc` (MacTeX / BasicTeX paths).
+2. **`pdflatex` + `bibtex` + `pdflatex` ×2** with `-halt-on-error` if both `pdflatex` and `bibtex` exist and `latexmk` does not.
+3. **`tectonic neurips_2026.tex`** if [Tectonic](https://tectonic-typesetting.github.io/) is installed (`brew install tectonic`). First run may download TeX packages; engine is XeTeX-class, so the PDF can differ slightly from a `pdflatex` build (fonts line breaks), but references and structure should match.
+
+**macOS without admin / no `pdflatex`:** `brew install tectonic` then `sh scripts/build_pdf.sh`.
+
+**macOS with admin (classic pdfTeX parity):** `brew install --cask basictex`, restart the shell (or `eval "$(/usr/libexec/path_helper)"`), install any missing LaTeX packages with `tlmgr`, then `sh scripts/build_pdf.sh` (will use `latexmk` or `pdflatex` once those binaries appear on `PATH`).
+
+Manual sequence (equivalent to backend **2** above):
 
 ```sh
 pdflatex -interaction=nonstopmode -halt-on-error neurips_2026.tex
@@ -36,6 +55,8 @@ pdflatex -interaction=nonstopmode -halt-on-error neurips_2026.tex
 ```
 
 Resolve `bibtex` warnings (e.g. duplicate keys in `example_paper.bib`) if you need a clean bibliography pass.
+
+**Which engine ran?** `sh scripts/build_pdf.sh --print-engine` prints `latexmk`, `pdflatex`, `tectonic`, or errors with `none` if nothing is available.
 
 ## Figures: manifest and human-readable mirror
 

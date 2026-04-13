@@ -11,14 +11,13 @@ description: Single SSOT for stepdllm-overleaf — Flightdeck locks, scoped comm
 
 ## LaTeX build
 
-- After each **substantive** change, run a full PDF build **when a TeX distribution is available** on `PATH`:
+- After each **substantive** change, run a full PDF build **when a TeX backend is available** on `PATH`. Canonical entry point from repo root:
 
 ```sh
-pdflatex -interaction=nonstopmode neurips_2026.tex
-bibtex neurips_2026
-pdflatex -interaction=nonstopmode neurips_2026.tex
-pdflatex -interaction=nonstopmode neurips_2026.tex
+sh scripts/build_pdf.sh
 ```
+
+  This prefers `latexmk -pdf` (see `./latexmkrc`), else `pdflatex`+`bibtex` loop, else `tectonic` (useful when `pdflatex` is missing). `sh scripts/build_pdf.sh --print-engine` reports which backend would run.
 
 - Doc-only tweaks (e.g. comments with no rebuild impact) still benefit from a build when TeX is present; skip only when the environment has no TeX.
 

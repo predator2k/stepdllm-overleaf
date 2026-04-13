@@ -16,6 +16,8 @@ if str(_SCRIPTS_DIR) not in sys.path:
 from plot_attention_budget_curve import (
     NUM_HEADS,
     NUM_KEYS,
+    TOP_RATIOS,
+    cumulative_mass_at_top_ratios,
     cumulative_mass_curve,
     generate_head_attention_weights,
 )
@@ -39,6 +41,26 @@ class TestCumulativeMassCurve(unittest.TestCase):
     def test_rejects_nonpositive_sum(self) -> None:
         with self.assertRaises(ValueError):
             cumulative_mass_curve(np.zeros(5))
+
+
+class TestCumulativeMassAtTopRatios(unittest.TestCase):
+    def test_monotone_increasing_bounded(self) -> None:
+        attn = np.array([0.1, 0.2, 0.7])
+        row = cumulative_mass_at_top_ratios(attn, TOP_RATIOS)
+        self.assertEqual(row.shape, TOP_RATIOS.shape)
+        self.assertTrue(np.all(np.diff(row) >= -1e-12))
+        self.assertLessEqual(float(row[-1]), 1.0 + 1e-12)
+        self.assertGreaterEqual(float(row[-1]), float(row[0]))
+
+    def test_full_ratio_covers_all_mass(self) -> None:
+        attn = np.ones(50) / 50.0
+        ratios = np.array([1.0])
+        row = cumulative_mass_at_top_ratios(attn, ratios)
+        self.assertAlmostEqual(float(row[0]), 1.0, places=10)
+
+    def test_rejects_nonpositive_sum(self) -> None:
+        with self.assertRaises(ValueError):
+            cumulative_mass_at_top_ratios(np.zeros(5), TOP_RATIOS)
 
 
 class TestGenerateHeadAttention(unittest.TestCase):

@@ -1,7 +1,9 @@
 ---
 name: stepdllm-overleaf-workflow
-description: Flightdeck crew conventions for this NeurIPS LaTeX repo—locks, commits, PDF builds, figures, and where to record reusable wisdom.
+description: Crew process SSOT for stepdllm-overleaf — Flightdeck locks, scoped commits, full LaTeX+bibtex loop, coordination, DAG hints. Figure manifest/regen details also live in skill overleaf-crew-workflow.
 ---
+
+**Figure manifest / `regenerate_figures.py` field reference:** **`.github/skills/overleaf-crew-workflow/SKILL.md`** (narrower SSOT so this file stays the process checklist).
 
 ## Editing and version control
 

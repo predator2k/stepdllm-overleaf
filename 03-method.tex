@@ -56,7 +56,7 @@ We present \textbf{Step-dLLM}, an efficient inference framework for diffusion la
 \begin{figure}[t]
     \centering
     \includegraphics[width=0.95\linewidth]{figures/step_dllm_overview.pdf}
-    \caption{Overview of \textbf{Step-dLLM}. Anchor steps compute full attention and extract a block-sparse mask via a fused kernel. Non-anchor steps reuse the cached mask with fresh $\mathbf{Q}, \mathbf{K}, \mathbf{V}$, reducing per-step cost from $\mathcal{O}(L^2)$ to $\mathcal{O}(L \cdot k \cdot b)$. The mask is periodically refreshed every $\Delta$ steps.}
+    \caption{Overview of \textbf{Step-dLLM}. Anchor steps compute full attention and extract a block-sparse mask via a fused kernel. Non-anchor steps reuse the cached mask with fresh $\mathbf{Q}, \mathbf{K}, \mathbf{V}$, reducing per-step cost from $\mathcal{O}(L^2)$ to $\mathcal{O}(L \cdot k \cdot b)$. The mask is periodically refreshed every $\Delta$ steps. \emph{Schematic} diagram from \texttt{plot\_step\_dllm\_overview.py} (layout for exposition; not a logged forward pass).}
     \label{fig:step_dllm_overview}
 \end{figure}
 

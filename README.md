@@ -4,6 +4,8 @@ LaTeX for the Step-dLLM paper. Figure PDFs under `figures/` are generated from `
 
 ## Minimal workflow (repo root)
 
+All shell snippets below use **`python3`** (not `python`) so copy-paste stays portable on hosts where `python` is absent or not Python 3.
+
 **1 — Verify plotters (fast, no PDF writes required for most tests)**
 
 ```sh
@@ -11,6 +13,8 @@ python3 scripts/plot_attention_budget_curve_test.py
 python3 scripts/plot_panels_6step_test.py
 python3 scripts/figure_neurips_style_test.py
 ```
+
+GitHub Actions runs the same three commands plus `python3 scripts/regenerate_figures.py --dry-run` on pushes to `main` and on all pull requests (see `.github/workflows/smoke.yml`). There is no `pdflatex` job in CI yet.
 
 **2 — Regenerate committed vector figures**
 
@@ -57,7 +61,7 @@ for f in scripts/plot_*.py; do [[ "$f" == *_test.py ]] && continue; python3 "$f"
 
 ## Plotter CLIs (gotcha)
 
-Orchestration flags live on **`regenerate_figures.py`**. Individual `scripts/plot_*.py` files may not use `argparse`; passing `--help` to a plotter can still execute `main()` and regenerate PDFs. Prefer `regenerate_figures.py --help` and `--only`.
+Orchestration flags live on **`regenerate_figures.py`**. Individual `scripts/plot_*.py` files may not use `argparse`; passing `--help` to a plotter can still execute `main()` and regenerate PDFs. Prefer `python3 scripts/regenerate_figures.py --help` and `python3 scripts/regenerate_figures.py --only <id>`.
 
 ## Tables
 

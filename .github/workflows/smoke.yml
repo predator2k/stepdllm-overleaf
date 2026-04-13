@@ -1,0 +1,30 @@
+# Fast Python smoke: manifest wiring + plotter unittests (no TeX).
+# pdflatex is intentionally omitted — many runners lack a TeX distribution.
+name: Smoke
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  python-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: pip install --upgrade pip && pip install "matplotlib>=3.7" "numpy>=1.24"
+
+      - name: Figure manifest (dry-run)
+        run: python3 scripts/regenerate_figures.py --dry-run
+
+      - name: Plotter unit tests
+        run: |
+          python3 scripts/plot_attention_budget_curve_test.py
+          python3 scripts/plot_panels_6step_test.py
+          python3 scripts/figure_neurips_style_test.py
